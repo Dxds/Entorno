@@ -40,9 +40,9 @@ figlet -c Variables
 PathSt=$(pwd)
 Eth=$(ip add|grep "2:"|awk '{print $2}'|head -1|sed 's/://g')
 User=$(whoami|awk '{print $1}')
-echo $User
-echo $Eth
-echo $PathST
+echo "Usuario: $User"
+echo "red: $Eth"
+echo "Espacio de trabajo: $PathST"
 echo -n "Ingresar Alias(Nombre para dejar en la barra): "
 read Alias
 echo $PassWD |sudo -S id
@@ -81,6 +81,28 @@ echo "Instalacion gestor de ventanas y multiples monitores"
 echo "Instalando dependencias para Bspwm"
 echo $PassWD|sudo -S apt-get install libxcb-xinerama0-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-util0-dev libxcb-ewmh-dev libxcb-keysyms1-dev libxcb-shape0-dev -y
 cd ~
+if [ -d ~/sxhkd]; then
+    rm -Rf ~/sxhkd
+fi
+if [ -d ~/sxhkd]; then
+    rm -Rf ~/sxhkd
+fi
+if [ -d ~/.config ]; then 
+     echo "directorio .config: Existe"
+else
+     mkdir ~/.config
+     mkdir -p ~/.config/{bspwm,sxhkd}
+fi
+if [ -d ~/.config/bspwm ]; then
+     echo "Directorios bspwm: Existe"
+else
+     mkdir -p ~/.config/bspwm
+fi
+if [ -d ~/.config/sxhkd ]; then
+     echo "Directorios bspwm sxhkd: Existe"
+else
+     mkdir -p ~/.config/sxhkd
+fi
 echo "Clonando Repositorio Bspwm"
 git clone https://github.com/baskerville/bspwm.git
 echo "Clonando Repositorio sxhkd"
@@ -90,6 +112,9 @@ echo $PassWD|sudo -S apt-get install bspwm -y
 cd bspwm && make && echo $PassWD|sudo -S make install
 echo "Instalando Sxhkd"
 cd ../sxhkd && make && echo $PassWD|sudo -S make install
+cp /usr/local/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/
+cp /usr/local/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/
+chmod u+x ~/.config/bspwm/bspwmrc
 cd $PathSt
 clear
 figlet -c Rofi 
@@ -159,7 +184,7 @@ cd polybar-themes
 chmod +x setup.sh
 ./setup.sh
 
-if [ -d ~/.config/polybar ]
+if [ -d ~/.config/polybar ]; then
      rm -Rf ~/.config/polybar
 fi
 pwd
@@ -168,7 +193,7 @@ file ~/.config/Comprimido.tar
 sleep 5
 cd ~/.config
 pwd
-if [ -f ~/.config/Comprimido.tar]
+if [ -f ~/.config/Comprimido.tar ]; then
      whoami
      tar -xvf ~/.config/Comprimido.tar
      file ~/.config/polybar/config.ini
@@ -224,13 +249,18 @@ echo $PassWD|sudo -S git clone --depth=1 https://github.com/romkatv/powerlevel10
 echo "una vez finalizada la ejecucion del script ejecutar zsh con cuenta root"
 cd $PathSt
 clear
+echo -n "Presiona enter para continuar: "
+read ent
 figlet -c ZSH
 echo "Modificacion zsh"
 rm -f  ~/.zshrc
 cp  Bspwm/.zshrc ~/
 echo $PassWD|sudo -S rm -f /root/.zshrc
+file /root/.zshrc
 echo $PassWD|sudo -S ln -s /home/${User}/.zshrc /root/.zshrc
+ls -l /root/.zshrc
 echo $PassWD|sudo -S cp ${PathSt}/Bspwm/.xinitrc /root
+file /root/.xinitrc
 echo $PassWD|sudo -S cp ${PathSt}/Bspwm/bspwm.desktop /usr/share/xsessions/
 cp ${PathSt}/Bspwm/.xinitrc ~
 echo "Instalacion Plugin"
@@ -250,6 +280,8 @@ else
         echo $PassWD|sudo -S chmod +u /usr/share/zsh-sudo/sudo.plugin.zsh
 fi
 echo $PassWD|
+echo -n "Presiona enter para continuar: "
+read ent
 clear
 figlet -c Scripts
 cd $PathSt
@@ -283,6 +315,8 @@ cd $PathSt
 cp {PathSt}/Bspwm/hackthebox.sh ~/.config/bin/
 cp {PathSt}/Bspwm/battery.sh ~/.config/bin/
 chmod +x -R ~/.config/bin
+echo -n "Presiona enter para continuar: "
+read ent
 clear
 figlet -c LSD
 echo "Mejora las capacidades del comando ls"
@@ -301,6 +335,7 @@ figlet -c Scrub
 echo "Esta utilidad permite eliminar archivos completamente (no se pueden recuperar)"
 echo "Instalando Scrub"
 echo $PassWD|sudo -S apt-get install scrub -y
+clear
 figlet -c FZF
 echo "Es una utilidad que mejora la experiencia con las busquedas de archivos"
 echo "Instalacion usuario $User"
@@ -337,6 +372,7 @@ echo "Instalando Java 8 para burpsuit"
 sudo apt-get install openjdk-8-jdk openjdk-8-jdk-headless -y
 echo "Configurando la opcion principal para java (seleccionar la version 8)"
 echo $PassWD|sudo update-alternatives --config java
+sleep 10
 java -version
 figlet -c Estamos Hack!
 clear
@@ -352,7 +388,7 @@ else
     echo "Debes cerrar sesión y cambiar el entorna a bspwm, en la pantalla de inicio de sesión"
     sleep 5
     figlet -c Se tenso
-    if [ -z $Alias]
+    if [ -z $Alias ]; then
         figlet -c Adios $User
     else
         $Alias
