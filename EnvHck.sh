@@ -7,6 +7,8 @@ echo "\n"
 echo "Para realizar esta configuracion se considero la informacion documentada por aljavier, la cual se puede revisar en el siguiente link:"
 echo "      *.- https://gist.github.com/aljavier/9c06356f4647b56ab3238d66219be6fa "
 echo "\n"
+echo -n "Ingresar Password Usuario: "
+read  PassWD
 clear
 figlet -c Update OS
 echo "Este script se puede ejecutar en sistemas operativos basados en Debian."
@@ -41,8 +43,6 @@ User=$(whoami|awk '{print $1}')
 echo $User
 echo $Eth
 echo $PathST
-echo -n "Ingresar Password Usuario: "
-read  PassWD
 echo -n "Ingresar Alias(Nombre para dejar en la barra): "
 read Alias
 echo $PassWD |sudo -S id
