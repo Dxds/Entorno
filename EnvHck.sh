@@ -265,7 +265,7 @@ echo $PassWD|sudo -S cp ${PathSt}/Bspwm/bspwm.desktop /usr/share/xsessions/
 cp ${PathSt}/Bspwm/.xinitrc ~
 echo "Instalacion Plugin"
 echo $PassWD|sudo -S apt-get install zsh-syntax-highlighting zsh-autosuggestions -y
-if [ -d /usr/share/zsh-sudo]; then
+if [ -d /usr/share/zsh-sudo ]; then
     echo "Directorio Existe"
     if [ -f /usr/share/zsh-sudo/sudo.plugin.zsh ]; then
         echo "Plugin sudo zsh esta instalado"
@@ -312,8 +312,8 @@ else
      sed -i "s/eth0/${eth1}/g" ~/.config/bin/ethernet_status.sh
 fi
 cd $PathSt
-cp {PathSt}/Bspwm/hackthebox.sh ~/.config/bin/
-cp {PathSt}/Bspwm/battery.sh ~/.config/bin/
+cp ${PathSt}/Bspwm/hackthebox.sh ~/.config/bin/
+cp ${PathSt}/Bspwm/battery.sh ~/.config/bin/
 chmod +x -R ~/.config/bin
 echo -n "Presiona enter para continuar: "
 read ent
