@@ -279,8 +279,8 @@ else
         echo $PassWD|sudo -S cp ${PathSt}/Bspwm/sudo.plugin.zsh /usr/share/zsh-sudo/sudo.plugin.zsh
         echo $PassWD|sudo -S chmod +u /usr/share/zsh-sudo/sudo.plugin.zsh
 fi
-echo $PassWD|sudo -S usermod --shell /usr/bin/zsh $User
-echo $PassWD|sudo -S usermod --shell /usr/bin/zsh root
+echo $PassWD|sudo -S su - root -c "usermod --shell /usr/bin/zsh $User"
+echo $PassWD|sudo -S su - root -c "usermod --shell /usr/bin/zsh root"
 echo -n "Presiona enter para continuar: "
 read ent
 clear
