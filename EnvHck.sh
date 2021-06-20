@@ -255,11 +255,11 @@ figlet -c ZSH
 echo "Modificacion zsh"
 rm -f  ~/.zshrc
 cp  Bspwm/.zshrc ~/
-echo $PassWD|sudo -S rm -f /root/.zshrc
+echo $PassWD|sudo -S su root -c "rm -f /root/.zshrc"
 file /root/.zshrc
-echo $PassWD|sudo -S ln -s /home/${User}/.zshrc /root/.zshrc
+echo $PassWD|sudo -S su root -c "ln -s /home/${User}/.zshrc /root/.zshrc"
 ls -l /root/.zshrc
-echo $PassWD|sudo -S cp ${PathSt}/Bspwm/.xinitrc /root
+echo $PassWD|sudo -S su root -c "cp ${PathSt}/Bspwm/.xinitrc /root"
 file /root/.xinitrc
 echo $PassWD|sudo -S cp ${PathSt}/Bspwm/bspwm.desktop /usr/share/xsessions/
 cp ${PathSt}/Bspwm/.xinitrc ~
@@ -279,7 +279,8 @@ else
         echo $PassWD|sudo -S cp ${PathSt}/Bspwm/sudo.plugin.zsh /usr/share/zsh-sudo/sudo.plugin.zsh
         echo $PassWD|sudo -S chmod +u /usr/share/zsh-sudo/sudo.plugin.zsh
 fi
-echo $PassWD|
+echo $PassWD|sudo -S usermod --shell /usr/bin/zsh $User
+echo $PassWD|sudo -S usermod --shell /usr/bin/zsh root
 echo -n "Presiona enter para continuar: "
 read ent
 clear
