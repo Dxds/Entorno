@@ -392,6 +392,6 @@ else
     if [ -z $Alias ]; then
         figlet -c Adios $User
     else
-        $Alias
+        figlet -c Adios $Alias
     fi
 fi
