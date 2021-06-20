@@ -56,9 +56,13 @@ clear
 figlet -c Sesion
 echo "Definiendo icono y fondo de pantalla, inicio de sesion"
 echo $PassWD |sudo -S cp /usr/share/backgrounds/login.jpg /usr/share/backgrounds/login_1.jpg
-echo $PassWD |sudo -S rm -f  /usr/share/backgrounds/login_1.jpg
+if [ -f /usr/share/backgrounds/login_1.jpg ]; then
+     echo $PassWD |sudo -S rm -f  /usr/share/backgrounds/login_1.jpg
+fi
 echo $PassWD |sudo -S cp /usr/share/icons/parrot-logo.png /usr/share/icons/parrot-logo_1.png
-echo $PassWD |sudo -S rm -f  /usr/share/icons/parrot-logo_1.png
+if [ -f /usr/share/icons/parrot-logo_1.png ]; then
+     echo $PassWD |sudo -S rm -f  /usr/share/icons/parrot-logo_1.png
+fi
 #Wallpaper Pantalla Bloqueo
 if [ -z $WlpBl ]; then
     echo $PassWD |sudo -S cp ./Images/login.jpg /usr/share/backgrounds/login.jpg
@@ -76,6 +80,7 @@ figlet -c Bspwm
 echo "Instalacion gestor de ventanas y multiples monitores"
 echo "Instalando dependencias para Bspwm"
 echo $PassWD|sudo -S apt-get install libxcb-xinerama0-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-util0-dev libxcb-ewmh-dev libxcb-keysyms1-dev libxcb-shape0-dev -y
+cd ~
 echo "Clonando Repositorio Bspwm"
 git clone https://github.com/baskerville/bspwm.git
 echo "Clonando Repositorio sxhkd"
@@ -143,20 +148,8 @@ echo "Personaliza la barra de tarea"
 echo "Instalando Dependencias"
 echo $PassWD|sudo -S apt install build-essential git cmake cmake-data pkg-config python3-sphinx python3-packaging libcairo2-dev libxcb1-dev libxcb-util0-dev libxcb-randr0-dev libxcb-composite0-dev python3-xcbgen xcb-proto libxcb-image0-dev libxcb-ewmh-dev libxcb-icccm4-dev -y
 echo $PassWD|sudo -S apt install libxcb-xkb-dev libxcb-xrm-dev libxcb-cursor-dev libasound2-dev libpulse-dev i3-wm libjsoncpp-dev libmpdclient-dev libcurl4-openssl-dev libnl-genl-3-dev -y
-echo "Descargando Fuente"
-cd /opt
-echo $PassWD|sudo wget https://github.com/polybar/polybar/releases/download/3.5.6/polybar-3.5.6.tar.gz
-echo "Descomprimiendo Polybar"
-echo $PassWD|sudo -S tar -zxf polybar-3.5.6.tar.gz
 echo "Instalando Polybar"
-echo $PassWD|sudo -S mv polybar-3.5.6 polybar
-cd polybar
-echo $PassWD|sudo su -S mkdir build
-cd build
-echo $PassWD|sudo -S cmake ..
-echo $PassWD|sudo -S make -j$(nproc)
-# Optional. This will install the polybar executable in /usr/local/bin
-echo $P4ssWD|sudo -S make install
+echo $PassWD|sudo -S sudo apt install polybar
 echo "Instalando polybar-themes"
 echo "clonando repositorio"
 echo $PassWD|sudo -S cp ${PathSt}/Bspwm/bspwm.desktop /usr/share/xsessions/ 
@@ -165,15 +158,23 @@ git clone --depth=1 https://github.com/adi1090x/polybar-themes.git
 cd polybar-themes
 chmod +x setup.sh
 ./setup.sh
-rm -Rf ~/.config/polybar
+
+if [ -d ~/.config/polybar ]
+     rm -Rf ~/.config/polybar
+fi
 pwd
 cp ${PathSt}/Bspwm/Comprimido.tar ~/.config/
+file ~/.config/Comprimido.tar
 sleep 5
 cd ~/.config
 pwd
-tar -xf ~/.config/Comprimido.tar 
-sleep 5
-ls -l polybar
+if [ -f ~/.config/Comprimido.tar]
+     whoami
+     tar -xvf ~/.config/Comprimido.tar
+     file ~/.config/polybar/config.ini
+     ls -l polybar
+     sleep 5
+fi
 sleep 3
 if [ -d ~/.config/bin ]; then
      echo "Directorio existe"
@@ -184,7 +185,12 @@ cd $PathSt
 cp Bspwm/launch.sh ~/.config/polybar
 rm -f ~/.config/polybar/config.ini
 cp Bspwm/config.ini ~/.config/polybar
-ls -l ~/.config/polybar/config.ini
+if [ -f ~/.config/polybar/config.ini ]; then
+     echo "file config.ini: existe"
+else
+     cp ${PathSt}/Bspwm/config.ini ~/.config/polybar
+     file ~/.config/polybar/config.ini
+fi     
 clear
 figlet -c Chrome
 echo -n "Desean Instalar google chrome Y/N: "
@@ -343,6 +349,12 @@ if [ $opts2 = 'Y' ]; then
     sleep 3
     kill -9 -1
 else
+    echo "Debes cerrar sesión y cambiar el entorna a bspwm, en la pantalla de inicio de sesión"
+    sleep 5
     figlet -c Se tenso
-    figlet -c Adios $User
+    if [ -z $Alias]
+        figlet -c Adios $User
+    else
+        $Alias
+    fi
 fi
