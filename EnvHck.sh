@@ -81,7 +81,7 @@ clear
 figlet -c Bspwm
 echo "Instalacion gestor de ventanas y multiples monitores"
 echo "Instalando dependencias para Bspwm"
-echo $PassWD|sudo -S apt-get install libxcb-xinerama0-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-util0-dev libxcb-ewmh-dev libxcb-keysyms1-dev libxcb-shape0-dev -y
+echo $PassWD|sudo -S apt-get install libxcb-xinerama0-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-util0-dev libxcb-ewmh-dev libxcb-keysyms1-dev libxcb-shape0-dev xclip gnome-terminal -y
 cd ~
 if [ -d ~/sxhkd]; then
     rm -Rf ~/sxhkd
@@ -119,6 +119,7 @@ cp ${PathSt}/Bspwm/sxhkdrc ~/.config/sxhkd/
 chmod u+x ~/.config/bspwm/bspwmrc
 chmod u+x ~/.config/sxhkd/sxhkdrc
 sed -i "s/username/${User}/g" ~/.config/bspwm/bspwmrc
+sed -i "s/username/${User}/g" ~/.config/sxhkd/sxhkdrc
 cp ${PathSt}/Bspwm/.xinitrc ~
 cd $PathSt
 clear
