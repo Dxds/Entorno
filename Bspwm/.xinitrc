@@ -1,2 +1,2 @@
-exec bspwm
+exec bspwm &
 sxhkd
