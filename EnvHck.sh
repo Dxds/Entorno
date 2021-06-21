@@ -86,8 +86,8 @@ cd ~
 if [ -d ~/sxhkd]; then
     rm -Rf ~/sxhkd
 fi
-if [ -d ~/sxhkd]; then
-    rm -Rf ~/sxhkd
+if [ -d ~/bspwm]; then
+    rm -Rf ~/bspwm
 fi
 if [ -d ~/.config ]; then 
      echo "directorio .config: Existe"
@@ -117,6 +117,7 @@ cd ../sxhkd && make && echo $PassWD|sudo -S make install
 cp /usr/local/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/
 cp /usr/local/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/
 chmod u+x ~/.config/bspwm/bspwmrc
+chmod u+x ~/.config/bspwm/sxhkdrc
 cd $PathSt
 clear
 figlet -c Rofi 
