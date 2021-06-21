@@ -7,8 +7,10 @@ echo "\n"
 echo "Para realizar esta configuracion se considero la informacion documentada por aljavier, la cual se puede revisar en el siguiente link:"
 echo "      *.- https://gist.github.com/aljavier/9c06356f4647b56ab3238d66219be6fa "
 echo "\n"
-echo -n "Ingresar Password Usuario: "
-read  PassWD
+echo "Se tomo como referencia el script generado por LevisWings, el cual se puede revisar en el siguiente link"
+echo "Me ayudo a ver alguno problemas con el script que se armo"
+echo "      *.- https://github.com/LevisWings/Auto-PWE "
+read -s -p "Ingresar Password Usuario: " PassWD
 clear
 figlet -c Update OS
 echo "Este script se puede ejecutar en sistemas operativos basados en Debian."
@@ -242,25 +244,10 @@ if [ $lvl10k = 'Y' ]; then
 else
     echo "Puedes configurar en otro momento ejecutando zsh. \n Puedes ver la configuraciòn directamente en el link https://www.youtube.com/watch?v=66IAhBI0bCM&t=3296s"
 fi
-echo "Instalacion Usuario Root"
-pwd
-echo "Clonando Repositorio"
-echo $PassWD|sudo -S git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/powerlevel10k
-echo "una vez finalizada la ejecucion del script ejecutar zsh con cuenta root"
-cd $PathSt
-clear
-echo -n "Presiona enter para continuar: "
-read ent
 figlet -c ZSH
 echo "Modificacion zsh"
 rm -f  ~/.zshrc
 cp  Bspwm/.zshrc ~/
-echo $PassWD|sudo -S su root -c "rm -f /root/.zshrc"
-file /root/.zshrc
-echo $PassWD|sudo -S su root -c "ln -s /home/${User}/.zshrc /root/.zshrc"
-ls -l /root/.zshrc
-echo $PassWD|sudo -S su root -c "cp ${PathSt}/Bspwm/.xinitrc /root"
-file /root/.xinitrc
 echo $PassWD|sudo -S cp ${PathSt}/Bspwm/bspwm.desktop /usr/share/xsessions/
 cp ${PathSt}/Bspwm/.xinitrc ~
 echo "Instalacion Plugin"
@@ -279,8 +266,6 @@ else
         echo $PassWD|sudo -S cp ${PathSt}/Bspwm/sudo.plugin.zsh /usr/share/zsh-sudo/sudo.plugin.zsh
         echo $PassWD|sudo -S chmod +u /usr/share/zsh-sudo/sudo.plugin.zsh
 fi
-echo $PassWD|sudo -S su - root -c "usermod --shell /usr/bin/zsh $User"
-echo $PassWD|sudo -S su - root -c "usermod --shell /usr/bin/zsh root"
 echo -n "Presiona enter para continuar: "
 read ent
 clear
@@ -344,12 +329,7 @@ echo "Clonando repositorio FZF"
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 echo "Instaland FZF"
 ~/.fzf/install
-echo "Instalacion Usuario Root"
-     echo "Clonando repositorio FZF"
-echo $P4ssWD|sudo -S git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf
-     echo "Instaland FZF"
-echo $PassWD| sudo -S /root/.fzf/install
-     sleep 2
+sleep 2
 cd $PathSt
 clear
 figlet -c Dunst
@@ -368,13 +348,8 @@ echo "#Bloque de pantalla" >> /home/${User}/.config/sxhkd/sxhkdrc
 echo "super + ctrl + alt + x" >> /home/${User}/.config/sxhkd/sxhkdrc
 echo "    GLITCHICON=/opt/glitchlock/stop.png /opt/glitchlock/glitchlock" >> /home/${User}/.config/sxhkd/sxhkdrc
 clear
-figlet -c JAVA
-echo "Instalando Java 8 para burpsuit"
-sudo apt-get install openjdk-8-jdk openjdk-8-jdk-headless -y
-echo "Configurando la opcion principal para java (seleccionar la version 8)"
-echo $PassWD|sudo update-alternatives --config java
-sleep 10
-java -version
+figlet -c Instalación ROOT
+echo $PassWD|sudo -S su - root -c "${PathSt}/EnvHckRoot.sh $User $PathSt"
 figlet -c Estamos Hack!
 clear
 echo "Solo falta cerrar sesion para cargar la configuracion"
