@@ -120,6 +120,17 @@ chmod u+x ~/.config/bspwm/bspwmrc
 chmod u+x ~/.config/sxhkd/sxhkdrc
 sed -i "s/username/${User}/g" ~/.config/bspwm/bspwmrc
 sed -i "s/username/${User}/g" ~/.config/sxhkd/sxhkdrc
+if [ -d ~/.config/bspwm/scripts ]; then
+     if [ -f ~/.config/bspwm/scripts/bspwm_resize ]; then
+           echo "Script existe. No es necesario realizar acciones"
+     else
+           cp Bspwm/bspwm_resize ~/.config/bspwm/scripts
+           chmod +x ~/.config/bspwm/scripts/bspwm_resize
+     fi
+else
+     mkdir  ~/.config/bspwm/scripts
+     cp Bspwm/bspwm_resize ~/.config/bspwm/scripts
+fi
 cp ${PathSt}/Bspwm/.xinitrc ~
 cd $PathSt
 clear
@@ -186,7 +197,7 @@ echo "Configuracion y generacion de scripts polybar"
 echo "Configuracion Script S4vitar"
 echo "Si no se indico el Alias tomara la configuracion por defecto y quedara el nombre de usuario"
 if [ -z $Alias ]; then
-     echo "Configuraciòn por defecto"
+     echo "Configuración por defecto"
      cp ${PathSt}/Bspwm/Name.sh ~/.config/bin/
      sed -i "s/S4vitar/${User}/g" ~/.config/bin/Name.sh
 else
