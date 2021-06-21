@@ -14,4 +14,3 @@ case "$1" in
 esac
 
 bspc node -z "$dir" "$x" "$y" || bspc node -z "$falldir" "$x" "$y"
-

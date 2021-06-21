@@ -34,9 +34,10 @@ super + m
 super + y
 	bspc node newest.marked.local -n newest.!automatic.local
 
-# swap the current node and the biggest node
+# swap the current node and the biggest window
 super + g
 	bspc node -s biggest
+#	bspc node -s biggest.window
 
 #
 # state/flags
@@ -59,16 +60,16 @@ super + ctrl + {m,x,y,z}
 #	bspc node -{f,s} {west,south,north,east}
 
 super + {_,shift + }{Left,Down,Up,Right}
-       bspc node -{f,s} {west,south,north,east}
-
+	bspc node -{f,s} {west,south,north,east}
 
 # focus the node for the given path jump
 super + {p,b,comma,period}
 	bspc node -f @{parent,brother,first,second}
 
-# focus the next/previous node in the current desktop
+# focus the next/previous window in the current desktop
 super + {_,shift + }c
 	bspc node -f {next,prev}.local
+#	bspc node -f {next,prev}.local.!hidden.window
 
 # focus the next/previous desktop in the current monitor
 super + bracket{left,right}
@@ -93,9 +94,9 @@ super + {_,shift + }{1-9,0}
 #
 
 # preselect the direction
+#super + ctrl + {h,j,k,l}
 super + ctrl + alt + {Left,Down,Up,Right}
 	bspc node -p {west,south,north,east}
-
 
 # preselect the ratio
 super + ctrl + {1-9}
@@ -106,6 +107,7 @@ super + ctrl + space
 	bspc node -p cancel
 
 # cancel the preselection for the focused desktop
+#super + ctrl + shift + space
 super + ctrl + alt + space
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
@@ -122,6 +124,7 @@ super + ctrl + alt + space
 #	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # move a floating window
+#super + {Left,Down,Up,Right}
 super + ctrl + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
@@ -138,8 +141,3 @@ alt + super + {Left,Down,Up,Right}
 
 super + shift + g
 	google-chrome
-
-# Open Burpsuite Professional
-
-super + ctrl + b
-	gksudo burp

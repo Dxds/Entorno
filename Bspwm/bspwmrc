@@ -1,4 +1,5 @@
 #! /bin/sh
+
 pgrep -x sxhkd > /dev/null || sxhkd &
 compton --config /home/username/.config/compton/compton.conf &
 wmname LG3D &
@@ -23,3 +24,4 @@ bspc rule -a Chromium desktop='^2'
 bspc rule -a mplayer2 state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
+bspc rule -a burp-StartBurp: state=floating
