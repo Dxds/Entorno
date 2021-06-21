@@ -118,6 +118,7 @@ cp ${PathSt}/Bspwm/bspwmrc ~/.config/bspwm/
 cp ${PathSt}/Bspwm/sxhkdrc ~/.config/sxhkd/
 chmod u+x ~/.config/bspwm/bspwmrc
 chmod u+x ~/.config/sxhkd/sxhkdrc
+sed -i "s/username/${User}/g" ~/.config/bspwm/bspwmrc
 cp ${PathSt}/Bspwm/.xinitrc ~
 cd $PathSt
 clear
@@ -285,6 +286,7 @@ figlet -c ZSH
 echo "Modificacion zsh"
 rm -f  ~/.zshrc
 cp  Bspwm/.zshrc ~/
+sed -i "s/user_name/${User}/g" ~/.zshrc
 echo $PassWD|sudo -S cp ${PathSt}/Bspwm/bspwm.desktop /usr/share/xsessions/
 echo "Instalacion Plugin"
 echo $PassWD|sudo -S apt-get install zsh-syntax-highlighting zsh-autosuggestions -y
