@@ -114,10 +114,23 @@ echo $PassWD|sudo -S apt-get install bspwm -y
 cd bspwm && make && echo $PassWD|sudo -S make install
 echo "Instalando Sxhkd"
 cd ../sxhkd && make && echo $PassWD|sudo -S make install
-cp /usr/local/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/
-cp /usr/local/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/
+cp ${PathSt}/Bspwm/bspwmrc ~/.config/bspwm/
+cp ${PathSt}/Bspwm/sxhkdrc ~/.config/sxhkd/
 chmod u+x ~/.config/bspwm/bspwmrc
 chmod u+x ~/.config/sxhkd/sxhkdrc
+cp ${PathSt}/Bspwm/.xinitrc ~
+cd $PathSt
+clear
+figlet -c Compton
+echo "Personaliza las ventanas con transparencias y difuminado de las ventanas entre otras"
+echo "Instalando Compton"
+echo $PassWD|sudo -S apt-get install compton -y
+if [ -d ~/.config/compton ]; then
+     cp Bspwm/compton.conf ~/.config/compton
+else
+     mkdir ~/.config/compton
+     cp Bspwm/compton.conf ~/.config/compton
+fi
 cd $PathSt
 clear
 figlet -c Rofi 
@@ -130,18 +143,6 @@ if [ $ops = 'Y' ]; then
      rofi-theme-selector
 else
      echo "Puedes configurar el tema mas tarde con el comando rofi-theme-selector"
-fi
-cd $PathSt
-clear
-figlet -c Compton
-echo "Personaliza las ventanas con transparencias y difuminado de las ventanas entre otras"
-echo "Instalando Compton"
-echo $PassWD|sudo -S apt-get install compton -y
-if [ -d ~/.config/compton ]; then
-     cp Bspwm/compton.conf ~/.config/compton
-else
-     mkdir ~/.config/compton
-     cp Bspwm/compton.conf ~/.config/compton
 fi
 cd $PathSt
 clear
@@ -170,6 +171,41 @@ if [ $cntFnt -eq 0 ]; then
     echo -n "Presiona enter para continuar: "
     read ent
 fi
+clear
+figlet -c Scripts
+cd $PathSt
+if [ -d ~/.config/bin ]; then
+     echo "Directorio bin existe"
+else
+     echo "Creando directorio bin"
+     mkdir ~/.config/bin
+fi
+echo "Configuracion y generacion de scripts polybar"
+echo "Configuracion Script S4vitar"
+echo "Si no se indico el Alias tomara la configuracion por defecto y quedara el nombre de usuario"
+if [ -z $Alias ]; then
+     echo "Configuraciòn por defecto"
+     cp ${PathSt}/Bspwm/Name.sh ~/.config/bin/
+     sed -i "s/S4vitar/${User}/g" ~/.config/bin/Name.sh
+else
+     echo "Se modifica configuracion"
+     cp ${PathSt}/Bspwm/Name.sh ~/.config/bin/
+     sed -i "s/S4vitar/${Alias}/g" ~/.config/bin/Name.sh
+fi
+if [ $Eth = "eth0" ]; then
+     cp ${PathSt}/Bspwm/ethernet_status.sh ~/.config/bin/
+else
+     echo -n "Favor indicar nombre de la tarjeta de red"
+     read eth1
+     cp ${PathSt}/Bspwm/ethernet_status.sh ~/.config/bin/
+     sed -i "s/eth0/${eth1}/g" ~/.config/bin/ethernet_status.sh
+fi
+cd $PathSt
+cp ${PathSt}/Bspwm/hackthebox.sh ~/.config/bin/
+cp ${PathSt}/Bspwm/battery.sh ~/.config/bin/
+chmod +x -R ~/.config/bin
+echo -n "Presiona enter para continuar: "
+read ent
 clear
 figlet -c Polybar
 echo "Personaliza la barra de tarea"
@@ -250,7 +286,6 @@ echo "Modificacion zsh"
 rm -f  ~/.zshrc
 cp  Bspwm/.zshrc ~/
 echo $PassWD|sudo -S cp ${PathSt}/Bspwm/bspwm.desktop /usr/share/xsessions/
-cp ${PathSt}/Bspwm/.xinitrc ~
 echo "Instalacion Plugin"
 echo $PassWD|sudo -S apt-get install zsh-syntax-highlighting zsh-autosuggestions -y
 if [ -d /usr/share/zsh-sudo ]; then
@@ -267,41 +302,6 @@ else
         echo $PassWD|sudo -S cp ${PathSt}/Bspwm/sudo.plugin.zsh /usr/share/zsh-sudo/sudo.plugin.zsh
         echo $PassWD|sudo -S chmod +u /usr/share/zsh-sudo/sudo.plugin.zsh
 fi
-echo -n "Presiona enter para continuar: "
-read ent
-clear
-figlet -c Scripts
-cd $PathSt
-if [ -d ~/.config/bin ]; then
-     echo "Directorio bin existe"
-else
-     echo "Creando directorio bin"
-     mkdir ~/.config/bin
-fi
-echo "Configuracion y generacion de scripts polybar"
-echo "Configuracion Script S4vitar"
-echo "Si no se indico el Alias tomara la configuracion por defecto y quedara el nombre de usuario"
-if [ -z $Alias ]; then
-     echo "Configuraciòn por defecto"
-     cp ${PathSt}/Bspwm/Name.sh ~/.config/bin/
-     sed -i "s/S4vitar/${User}/g" ~/.config/bin/Name.sh
-else
-     echo "Se modifica configuracion"
-     cp ${PathSt}/Bspwm/Name.sh ~/.config/bin/
-     sed -i "s/S4vitar/${Alias}/g" ~/.config/bin/Name.sh
-fi
-if [ $Eth = "eth0" ]; then
-     cp ${PathSt}/Bspwm/ethernet_status.sh ~/.config/bin/
-else
-     echo -n "Favor indicar nombre de la tarjeta de red"
-     read eth1
-     cp ${PathSt}/Bspwm/ethernet_status.sh ~/.config/bin/
-     sed -i "s/eth0/${eth1}/g" ~/.config/bin/ethernet_status.sh
-fi
-cd $PathSt
-cp ${PathSt}/Bspwm/hackthebox.sh ~/.config/bin/
-cp ${PathSt}/Bspwm/battery.sh ~/.config/bin/
-chmod +x -R ~/.config/bin
 echo -n "Presiona enter para continuar: "
 read ent
 clear
