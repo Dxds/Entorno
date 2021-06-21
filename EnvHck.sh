@@ -117,7 +117,7 @@ cd ../sxhkd && make && echo $PassWD|sudo -S make install
 cp /usr/local/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/
 cp /usr/local/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/
 chmod u+x ~/.config/bspwm/bspwmrc
-chmod u+x ~/.config/bspwm/sxhkdrc
+chmod u+x ~/.config/sxhkd/sxhkdrc
 cd $PathSt
 clear
 figlet -c Rofi 
