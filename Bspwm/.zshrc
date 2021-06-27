@@ -58,7 +58,8 @@ alias la='lsd -a --group-dirs=first'
 alias l='lsd --group-dirs=first'
 alias lla='lsd -lha --group-dirs=first'
 alias ls='lsd --group-dirs=first'
-alias catb='/usr/bin/bat'
+alias catb='/usr/bin/cat'
+alias cat='/usr/bin/bat'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -83,6 +84,68 @@ function extractPorts(){
 	echo -e "[*] Ports copied to clipboard\n"  >> extractPorts.tmp
 	cat extractPorts.tmp; rm extractPorts.tmp
 }
+
+#Crear conexion a hack the box
+function htb_add(){
+    echo -n "Ingrese path file openvpn: "
+    read ovpn
+    echo -n "Ingrese nombre para identificar la conexion: "
+    read name
+    echo -n "Ingrese una descripcion breve de la conexion"
+    read descpr
+    if [ -d ~/.opvpnclnt ]; then
+      cp $ovpn ~/.opvpnclnt/${name}.ovpn
+      if [ -f ~/.opvpnclnt/lists]; then
+        echo "$name - $descpr" >> ~/.opvpnclnt/lists
+      else
+        touch ~/.opvpnclnt/lists
+        echo "Name   Description" > ~/.opvpnclnt/lists
+        echo "$name - $descpr" >> ~/.opvpnclnt/lists
+      fi
+    else
+      mkdir ~/.opvpnclnt
+      cp $ovpn ~/.opvpnclnt/${name}.ovpn
+      touch ~/.opvpnclnt/lists
+      #echo "Name   Description" > ~/.opvpnclnt/lists
+      echo "$name - $descpr" >> ~/.opvpnclnt/lists
+    fi
+}
+#Conectar vpn a hacthebox
+function htb(){
+while getopts "hlc:" OPTION; do
+    case $OPTION in
+    h)
+        echo "* - Para conectar a la vpn de htb, se debe crear la conexiòn con el comando htb_add"|column -t -s '-' --table --table-columns="Flag, Descripcion"
+        echo "l - Para listar las conexiones existentes, ejecutar; htb -l"
+        echo "c - Para conectarse ejecuta htb -c Nombredeconexion"
+        ;;
+    l)
+        if [ -f ~/.opvpnclnt/lists ]; then
+          wc=$(wc -l ~/.opvpnclnt/lists|awk '{print $1}')
+          if [ $wc -ge 1 ]; then
+            catb ~/.opvpnclnt/lists |column -t -s '-' --table --table-columns="Nombre, Descripcion"
+          else
+            echo "Aun no se ha configurado una conexion vpn. Favor ejecuta la funcion htb_add para configurar una conexion"
+          fi
+         else
+           echo "No hay conexiones disponibles. Ejecutar el comando htb_add, para configura una conexion vpn"
+         fi
+        ;;
+    c)
+        nm=$2
+        sudo openvpn ~/.opvpnclnt/${nm}.ovpn
+        ;;
+    *)
+        echo "Debes ingresar una opcion valida para realizar la conexion"
+        echo "Puedes ejecutar htb -h, para mayor detalles"
+        echo "Puede Revisar las conexiones disponibles con el comando htb -l"
+        echo "Debes indicar el nombre de conexion para realizar la conexion vpn a hack the box"
+        ;;
+    esac
+done
+
+}
+
 
 # Set 'man' colors
 function man() {
