@@ -36,5 +36,5 @@ sleep 20
 java -version
 sleep 5
 figlet -c Instalacion Root Finalizada
-echo -n "Presiona enter para continuar: "
+echo "Presiona enter para continuar: "
 read ent
