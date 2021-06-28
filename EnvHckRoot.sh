@@ -17,7 +17,7 @@ cp ${PathSt}/Bspwm/.xinitrc /root
 file /root/.xinitrc
 cd $PathSt
 clear
-echo -n "Presiona enter para continuar: "
+echo "Presiona enter para continuar: "
 read ent
 usermod --shell /usr/bin/zsh $User
 usermod --shell /usr/bin/zsh root
