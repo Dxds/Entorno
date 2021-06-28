@@ -5,23 +5,23 @@ echo "Script creado para automatizar la configuracion basada en el entorno de tr
 echo "      *.- https://s4vitar.github.io/bspwm-configuration-files/#"
 echo "      *.- https://www.youtube.com/watch?v=66IAhBI0bCM"
 echo "      *.- https://drive.google.com/drive/folders/1JIvgTECQlmH9vg8RVx-JYeIiVOmsG-ca"
-echo -e "\n"
+echo -e  "\n"
 echo "Para realizar esta configuracion se considero la informacion documentada por aljavier, la cual se puede revisar en el siguiente link:"
 echo "      *.- https://gist.github.com/aljavier/9c06356f4647b56ab3238d66219be6fa "
-echo -e "\n"
+echo -e  "\n"
 echo "Se tomo como referencia el script generado por LevisWings, el cual se puede revisar en el siguiente link"
 echo "Me ayudo a ver alguno problemas con el script que se armo"
 echo "      *.- https://github.com/LevisWings/Auto-PWE "
-echo -e "\n"
-echo -e "\n"
+echo -e  "\n"
+echo -e  "\n"
 echo -n "   Ingresar Password Usuario: " 
 stty -echo
 read PassWD
 stty echo
 clear
 figlet -c Update OS
-echo -e "\n"
-echo -e "\n"
+echo -e  "\n"
+echo  -e "\n"
 echo "Este script se puede ejecutar en sistemas operativos basados en Debian."
 echo -e "\t Si utilizas otra distrubucion que no este basada en Debian, deberas realizar las modificaciones correspondientes para la instalacion de dependencias"
 echo -e "\t\t\t\t Indicar S.O"
@@ -30,9 +30,9 @@ echo -e "\t\t\t 1.- Kali"
 echo -e "\t\t\t 2.- Parrot"
 echo -e "\t\t\t 3.- Saltar"
 echo -ne "\t\t\t Si las actualizaciones estan instaladas digita 3 para saltar: "
-read opts1
+read optsos
 
-case $opts1 in
+case $optsos in
   1)
     echo $PassWD |sudo -S apt-get update -y 
     echo $PassWD |sudo -S apt-get upgrade -y 
@@ -56,37 +56,41 @@ echo "red: $Eth"
 echo "Espacio de trabajo: $PathST"
 echo -n "Ingresar Alias(Nombre para dejar en la barra): "
 read Alias
-echo $PassWD |sudo -S id
-echo -n "Ingresar path imagen de fondo: "
-read Wallp
-echo -n "Ingresar path imagen de fondo para pantalla de bloqueo: "
-read WlpBl
-echo -n "Ingresar Path imagen icono para la pantalla de bloqueo (Debe ser en formato png y de tamaño 50x50): "
-read WlpIco
-clear
-figlet -c Sesion
-echo "Definiendo icono y fondo de pantalla, inicio de sesion"
-echo $PassWD |sudo -S cp /usr/share/backgrounds/login.jpg /usr/share/backgrounds/login_1.jpg
-if [ -f /usr/share/backgrounds/login_1.jpg ]; then
-     echo $PassWD |sudo -S rm -f  /usr/share/backgrounds/login_1.jpg
-fi
-echo $PassWD |sudo -S cp /usr/share/icons/parrot-logo.png /usr/share/icons/parrot-logo_1.png
-if [ -f /usr/share/icons/parrot-logo_1.png ]; then
-     echo $PassWD |sudo -S rm -f  /usr/share/icons/parrot-logo_1.png
-fi
-#Wallpaper Pantalla Bloqueo
-if [ -z $WlpBl ]; then
-    echo $PassWD |sudo -S cp ./Images/login.jpg /usr/share/backgrounds/login.jpg
-else
-    echo $PassWD |sudo -S cp $WlpBl /usr/share/backgrounds/login.jpg
-fi
-#Logotipo Pantalla Bloqueo
-if [ -z $WlpIco ]; then
-    echo $PassWD |sudo -S cp ./Images/login.png /usr/share/icons/parrot-logo.png
-else
-    echo $PassWD |sudo -S cp $WlpIco /usr/share/icons/parrot-logo.png
+if [ $optsos == 2 ]; then
+    echo $PassWD |sudo -S id
+    echo -n "Ingresar path imagen de fondo: "
+    read Wallp
+    echo -n "Ingresar path imagen de fondo para pantalla de bloqueo: "
+    read WlpBl
+    echo -n "Ingresar Path imagen icono para la pantalla de bloqueo (Debe ser en formato png y de tamaño 50x50): "
+    read WlpIco
 fi
 clear
+if [ $optsos == 2 ]; then
+    figlet -c Sesion
+    echo "Definiendo icono y fondo de pantalla, inicio de sesion"
+    echo $PassWD |sudo -S cp /usr/share/backgrounds/login.jpg /usr/share/backgrounds/login_1.jpg
+    if [ -f /usr/share/backgrounds/login_1.jpg ]; then
+         echo $PassWD |sudo -S rm -f  /usr/share/backgrounds/login_1.jpg
+    fi
+    echo $PassWD |sudo -S cp /usr/share/icons/parrot-logo.png /usr/share/icons/parrot-logo_1.png
+    if [ -f /usr/share/icons/parrot-logo_1.png ]; then
+         echo $PassWD |sudo -S rm -f  /usr/share/icons/parrot-logo_1.png
+    fi
+    #Wallpaper Pantalla Bloqueo
+    if [ -z $WlpBl ]; then
+        echo $PassWD |sudo -S cp ./Images/login.jpg /usr/share/backgrounds/login.jpg
+    else
+        echo $PassWD |sudo -S cp $WlpBl /usr/share/backgrounds/login.jpg
+    fi
+    #Logotipo Pantalla Bloqueo
+    if [ -z $WlpIco ]; then
+        echo $PassWD |sudo -S cp ./Images/login.png /usr/share/icons/parrot-logo.png
+    else
+        echo $PassWD |sudo -S cp $WlpIco /usr/share/icons/parrot-logo.png
+    fi
+    clear
+fi
 figlet -c Bspwm
 echo "Instalacion gestor de ventanas y multiples monitores"
 echo "Instalando dependencias para Bspwm"
@@ -133,15 +137,19 @@ if [ -d ~/.config/bspwm/scripts ]; then
      if [ -f ~/.config/bspwm/scripts/bspwm_resize ]; then
            echo "Script existe. No es necesario realizar acciones"
      else
-           cp Bspwm/bspwm_resize ~/.config/bspwm/scripts
+           cp ${PathSt}/Bspwm/bspwm_resize ~/.config/bspwm/scripts
            chmod +x ~/.config/bspwm/scripts/bspwm_resize
+           ls -l ~/.config/bspwm/scripts/bspwm_resize
      fi
 else
      mkdir  ~/.config/bspwm/scripts
-     cp Bspwm/bspwm_resize ~/.config/bspwm/scripts
+     cp ${PathSt}/Bspwm/bspwm_resize ~/.config/bspwm/scripts
+     ls -l ~/.config/bspwm/scripts/bspwm_resize
 fi
 cp ${PathSt}/Bspwm/.xinitrc ~
 cd $PathSt
+echo -n "Presiona enter para continuar: "
+read ent
 clear
 figlet -c Compton
 echo "Personaliza las ventanas con transparencias y difuminado de las ventanas entre otras"
@@ -325,6 +333,12 @@ else
         echo $PassWD|sudo -S cp ${PathSt}/Bspwm/sudo.plugin.zsh /usr/share/zsh-sudo/sudo.plugin.zsh
         echo $PassWD|sudo -S chmod +u /usr/share/zsh-sudo/sudo.plugin.zsh
 fi
+if [ -f ~/.p10k.zsh ]; then
+     rm -f ~/.p10k.zsh
+     cp ${PatSt}/Bspwm/.p10k.zsh ~/.p10k.zsh
+else
+     cp ${PatSt}/Bspwm/.p10k.zsh ~/.p10k.zsh
+fi
 echo -n "Presiona enter para continuar: "
 read ent
 clear
@@ -365,6 +379,7 @@ clear
 figlet -c Glichlock
 echo "Permite personalizar la pantalla de bloqueo"
 echo "Instalando i3lock-color scrot imagemagick"
+echo $PassWD|sudo -S apt-get update -y
 echo $PassWD|sudo -S apt-get install i3lock-color scrot imagemagick -y
 cd /opt
 echo $PassWD|sudo -S git clone https://github.com/xero/glitchlock
@@ -374,10 +389,13 @@ echo "    GLITCHICON=/opt/glitchlock/stop.png /opt/glitchlock/glitchlock" >> /ho
 clear
 figlet -c Instalación ROOT
 echo $PassWD|sudo -S su - root -c "${PathSt}/EnvHckRoot.sh $User $PathSt"
+clear
+echo "Presione enter para continuar: "
+read ent
 figlet -c Estamos Hack!
 clear
 echo "Solo falta cerrar sesion para cargar la configuracion"
-echo -n "Deseas cerrar sesion [Y/N]: "
+echo "Deseas cerrar sesion [Y/N]: "
 read opts2
 if [ $opts2 = 'Y' ]; then
     figlet -c Se tenso

@@ -10,21 +10,25 @@ echo "Clonando Repositorio"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/powerlevel10k
 echo "una vez finalizada la ejecucion del script ejecutar zsh con cuenta root"
 rm -f /root/.zshrc
+rm -f /root/.p10k.zsh
 file /root/.zshrc
 ln -s /home/${User}/.zshrc /root/.zshrc
+ln -s /home/${User}/.p10k.zsh /root/.p10k.zsh
 ls -l /root/.zshrc
 cp ${PathSt}/Bspwm/.xinitrc /root
 file /root/.xinitrc
 cd $PathSt
 clear
 echo "Presiona enter para continuar: "
-read ent
+read key
 usermod --shell /usr/bin/zsh $User
 usermod --shell /usr/bin/zsh root
 figlet -c FZF ROOT
 echo "Instalacion Usuario Root"
 echo "Clonando repositorio FZF"
 git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf
+echo "Presiona enter para continuar: "
+read key
 echo "Instalando FZF"
 /root/.fzf/install
 figlet -c JAVA
@@ -37,4 +41,4 @@ java -version
 sleep 5
 figlet -c Instalacion Root Finalizada
 echo "Presiona enter para continuar: "
-read ent
+read key 
