@@ -1,3 +1,5 @@
+#!/bin/bash
+
 User=$1
 PathSt=$2
 figlet -c Powerlevel10k ROOT
