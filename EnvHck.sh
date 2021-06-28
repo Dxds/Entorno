@@ -346,9 +346,9 @@ else
 fi
 if [ -f ~/.p10k.zsh ]; then
      rm -f ~/.p10k.zsh
-     cp ${PatSt}/Bspwm/.p10k.zsh ~/.p10k.zsh
+     cp ${PathSt}/Bspwm/.p10k.zsh ~/.p10k.zsh
 else
-     cp ${PatSt}/Bspwm/.p10k.zsh ~/.p10k.zsh
+     cp ${PathSt}/Bspwm/.p10k.zsh ~/.p10k.zsh
 fi
 echo -n "Presiona enter para continuar: "
 read ent
