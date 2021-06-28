@@ -83,10 +83,10 @@ echo "Instalacion gestor de ventanas y multiples monitores"
 echo "Instalando dependencias para Bspwm"
 echo $PassWD|sudo -S apt-get install libxcb-xinerama0-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-util0-dev libxcb-ewmh-dev libxcb-keysyms1-dev libxcb-shape0-dev xclip gnome-terminal -y
 cd ~
-if [ -d ~/sxhkd]; then
+if [ -d ~/sxhkd ]; then
     rm -Rf ~/sxhkd
 fi
-if [ -d ~/bspwm]; then
+if [ -d ~/bspwm ]; then
     rm -Rf ~/bspwm
 fi
 if [ -d ~/.config ]; then 
