@@ -19,33 +19,44 @@ stty -echo
 read PassWD
 stty echo
 clear
-figlet -c Update OS
+figlet -c OS
 echo -e  "\n"
 echo  -e "\n"
 echo "Este script se puede ejecutar en sistemas operativos basados en Debian."
-echo -e "\t Si utilizas otra distrubucion que no este basada en Debian, deberas realizar las modificaciones correspondientes para la instalacion de dependencias"
+echo -e "\t Si utilizas otra distrubucion que no este basada en Debian, deberas realizar las modificaciones y updates correspondientes para la instalacion de dependencias"
 echo -e "\t\t\t\t Indicar S.O"
 echo -e "\n\n"
 echo -e "\t\t\t 1.- Kali"
 echo -e "\t\t\t 2.- Parrot"
-echo -e "\t\t\t 3.- Saltar"
-echo -ne "\t\t\t Si las actualizaciones estan instaladas digita 3 para saltar: "
+echo -e "\t\t\t 3.- Other"
+echo -ne "\t\t\t Si usas una distribucion diferente a las indicadas debera revisar el script de intalacion \n para adaptarlo al S.O: "
 read optsos
 
-case $optsos in
-  1)
-    echo $PassWD |sudo -S apt-get update -y 
-    echo $PassWD |sudo -S apt-get upgrade -y 
-    ;;
-  2)
-    echo $PassWD |sudo -S apt-get update -y 
-    echo $PassWD |sudo -S parrot-upgrade -y 
-    ;;
-  3)
-    echo "Se inicia la configuracion de variables ..."
-    ;;
-esac
-
+if [ $optsos = 3 ]; then
+  echo "Favor revisar script y adpatar al S.O"
+  exit
+fi
+figlet -c Update OS
+echo "Deseas Realizar la actualizacion de S.O [Y/N]"
+read SO1
+if [ $SO1 = 'Y' ]; then
+  case $optsos in
+    1)
+      echo $PassWD |sudo -S apt-get update -y 
+      echo $PassWD |sudo -S apt-get upgrade -y 
+      ;;
+    2)
+     echo $PassWD |sudo -S apt-get update -y 
+     echo $PassWD |sudo -S parrot-upgrade -y 
+     ;;
+   3)
+     echo "Se saltara el update debes validar si tu distrubución es compatible con los paquetes de instalación ..."
+     ;;
+  esac
+else
+     echo "Se inicia la configuracion de variables ..."
+fi
+clear
 figlet -c Variables
 
 PathSt=$(pwd)
