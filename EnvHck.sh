@@ -80,14 +80,19 @@ clear
 if [ $optsos == 2 ]; then
     figlet -c Sesion
     echo "Definiendo icono y fondo de pantalla, inicio de sesion"
-    echo $PassWD |sudo -S cp /usr/share/backgrounds/login.jpg /usr/share/backgrounds/login_1.jpg
+    #Respaldo Imagen
     if [ -f /usr/share/backgrounds/login_1.jpg ]; then
          echo $PassWD |sudo -S rm -f  /usr/share/backgrounds/login_1.jpg
+    else
+         echo $PassWD |sudo -S cp /usr/share/backgrounds/login.jpg /usr/share/backgrounds/login_1.jpg
     fi
-    echo $PassWD |sudo -S cp /usr/share/icons/parrot-logo.png /usr/share/icons/parrot-logo_1.png
+    
     if [ -f /usr/share/icons/parrot-logo_1.png ]; then
          echo $PassWD |sudo -S rm -f  /usr/share/icons/parrot-logo_1.png
+    else
+         echo $PassWD |sudo -S cp /usr/share/icons/parrot-logo.png /usr/share/icons/parrot-logo_1.png
     fi
+    
     #Wallpaper Pantalla Bloqueo
     if [ -z $WlpBl ]; then
         echo $PassWD |sudo -S cp ./Images/login.jpg /usr/share/backgrounds/login.jpg
