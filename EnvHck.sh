@@ -1,28 +1,35 @@
 #!/bin/bash
-
+clear
 figlet -c BSPWM S4VITAR
 echo "Script creado para automatizar la configuracion basada en el entorno de trabajo publicado por S4VITAR. Las referencias estan publicadas y se pueden revisar en esta urls:"
 echo "      *.- https://s4vitar.github.io/bspwm-configuration-files/#"
 echo "      *.- https://www.youtube.com/watch?v=66IAhBI0bCM"
 echo "      *.- https://drive.google.com/drive/folders/1JIvgTECQlmH9vg8RVx-JYeIiVOmsG-ca"
-echo "\n"
+echo -e "\n"
 echo "Para realizar esta configuracion se considero la informacion documentada por aljavier, la cual se puede revisar en el siguiente link:"
 echo "      *.- https://gist.github.com/aljavier/9c06356f4647b56ab3238d66219be6fa "
-echo "\n"
+echo -e "\n"
 echo "Se tomo como referencia el script generado por LevisWings, el cual se puede revisar en el siguiente link"
 echo "Me ayudo a ver alguno problemas con el script que se armo"
 echo "      *.- https://github.com/LevisWings/Auto-PWE "
-read -s -p "Ingresar Password Usuario: " PassWD
+echo -e "\n"
+echo -e "\n"
+echo -n "   Ingresar Password Usuario: " 
+stty -echo
+read PassWD
+stty echo
 clear
 figlet -c Update OS
+echo -e "\n"
+echo -e "\n"
 echo "Este script se puede ejecutar en sistemas operativos basados en Debian."
 echo -e "\t Si utilizas otra distrubucion que no este basada en Debian, deberas realizar las modificaciones correspondientes para la instalacion de dependencias"
-echo "\t\t\t\t Indicar S.O"
-echo "\n\n"
-echo "\t\t\t 1.- Kali"
-echo "\t\t\t 2.- Parrot"
-echo "\t\t\t 3.- Saltar"
-echo -n "\t\t\t Si las actualizaciones estan instaladas digita 3 para saltar: "
+echo -e "\t\t\t\t Indicar S.O"
+echo -e "\n\n"
+echo -e "\t\t\t 1.- Kali"
+echo -e "\t\t\t 2.- Parrot"
+echo -e "\t\t\t 3.- Saltar"
+echo -ne "\t\t\t Si las actualizaciones estan instaladas digita 3 para saltar: "
 read opts1
 
 case $opts1 in
@@ -85,10 +92,10 @@ echo "Instalacion gestor de ventanas y multiples monitores"
 echo "Instalando dependencias para Bspwm"
 echo $PassWD|sudo -S apt-get install libxcb-xinerama0-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-util0-dev libxcb-ewmh-dev libxcb-keysyms1-dev libxcb-shape0-dev xclip gnome-terminal -y
 cd ~
-if [ -d ~/sxhkd ]; then
+if [ -d ~/sxhkd]; then
     rm -Rf ~/sxhkd
 fi
-if [ -d ~/bspwm ]; then
+if [ -d ~/bspwm]; then
     rm -Rf ~/bspwm
 fi
 if [ -d ~/.config ]; then 
