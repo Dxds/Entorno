@@ -1,3 +1,5 @@
+#!/bin/bash
+
 figlet -c BSPWM S4VITAR
 echo "Script creado para automatizar la configuracion basada en el entorno de trabajo publicado por S4VITAR. Las referencias estan publicadas y se pueden revisar en esta urls:"
 echo "      *.- https://s4vitar.github.io/bspwm-configuration-files/#"
