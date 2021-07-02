@@ -164,6 +164,7 @@ if [ -d ~/.config/bspwm/scripts ]; then
 else
      mkdir  ~/.config/bspwm/scripts
      cp ${PathSt}/Bspwm/bspwm_resize ~/.config/bspwm/scripts
+     chmod +x ~/.config/bspwm/scripts/bspwm_resize
      ls -l ~/.config/bspwm/scripts/bspwm_resize
 fi
 cp ${PathSt}/Bspwm/.xinitrc ~
@@ -271,7 +272,7 @@ cd ~
 git clone --depth=1 https://github.com/adi1090x/polybar-themes.git
 cd polybar-themes
 chmod +x setup.sh
-./setup.sh
+#./setup.sh
 
 if [ -d ~/.config/polybar ]; then
      rm -Rf ~/.config/polybar
@@ -407,7 +408,11 @@ echo "#Bloque de pantalla" >> /home/${User}/.config/sxhkd/sxhkdrc
 echo "super + ctrl + alt + x" >> /home/${User}/.config/sxhkd/sxhkdrc
 echo "    GLITCHICON=/opt/glitchlock/stop.png /opt/glitchlock/glitchlock" >> /home/${User}/.config/sxhkd/sxhkdrc
 clear
-figlet -c Instalación ROOT
+figlet -c Sublime
+echo $PassWD|sudo -S wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+echo $PassWD|sudo apt-get install apt-transport-https
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+figlet -c Instalacion ROOT
 echo $PassWD|sudo -S su - root -c "${PathSt}/EnvHckRoot.sh $User $PathSt"
 clear
 echo "Presione enter para continuar: "
