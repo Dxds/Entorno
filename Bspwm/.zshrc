@@ -60,6 +60,7 @@ alias lla='lsd -lha --group-dirs=first'
 alias ls='lsd --group-dirs=first'
 alias catb='/usr/bin/cat'
 alias cat='/usr/bin/bat'
+alias sublime='/opt/sublime_text/sublime_text'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
