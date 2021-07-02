@@ -126,11 +126,15 @@ else
 fi
 if [ -d ~/.config/bspwm ]; then
      echo "Directorios bspwm: Existe"
+     echo "Eliminado Directorio actual"
+     rm -Rf ~/.config/bspwm
 else
      mkdir -p ~/.config/bspwm
 fi
 if [ -d ~/.config/sxhkd ]; then
      echo "Directorios bspwm sxhkd: Existe"
+     echo "Eliminado Directorio actual"
+     rm -Rf ~/.config/sxhkd
 else
      mkdir -p ~/.config/sxhkd
 fi
@@ -314,8 +318,6 @@ figlet -c Powerlevel10k
 echo "Permite personalizar la terminal ZSH"
 echo "Clonando Repositorio"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo "Configurando fuente zsh-theme archivo zhrc"
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 echo "Configurando zsh"
 echo "Secuencia de s4vitar: y y y y 3 1 n 1 2 2 1 2 2 2 n 1 y"
 echo -n "¿Deseas configurar la terminal zsh? (Y/N): "
@@ -325,12 +327,14 @@ if [ $lvl10k = 'Y' ]; then
     sleep 5
     zsh
 else
-    echo "Puedes configurar en otro momento ejecutando zsh. \n Puedes ver la configuraciòn directamente en el link https://www.youtube.com/watch?v=66IAhBI0bCM&t=3296s"
+    echo -e "Puedes configurar en otro momento ejecutando zsh. \n Puedes ver la configuraciòn directamente en el link https://www.youtube.com/watch?v=66IAhBI0bCM&t=3296s"
 fi
 figlet -c ZSH
 echo "Modificacion zsh"
 rm -f  ~/.zshrc
 cp  Bspwm/.zshrc ~/
+echo "Configurando fuente zsh-theme archivo zhrc"
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 sed -i "s/user_name/${User}/g" ~/.zshrc
 echo $PassWD|sudo -S cp ${PathSt}/Bspwm/bspwm.desktop /usr/share/xsessions/
 echo "Instalacion Plugin"
