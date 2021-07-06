@@ -107,10 +107,26 @@ if [ $optsos == 2 ]; then
     fi
     clear
 fi
+cd ${PathSt}
+if [-d Descargas ]; then
+       cd ${PathSt}/Descargas
+       echo "Clonando Repositorio Bspwm"
+       git clone https://github.com/baskerville/bspwm.git
+       echo "Clonando Repositorio sxhkd"
+       git clone https://github.com/baskerville/sxhkd.git
+else
+       mkdir ${PathSt}/Descargas
+       echo "Clonando Repositorio Bspwm"
+       git clone https://github.com/baskerville/bspwm.git
+       echo "Clonando Repositorio sxhkd"
+       git clone https://github.com/baskerville/sxhkd.git
+fi
 figlet -c Bspwm
+cd ${PathSt}/Descargas
 echo "Instalacion gestor de ventanas y multiples monitores"
 echo "Instalando dependencias para Bspwm"
-echo $PassWD|sudo -S apt-get install libxcb-xinerama0-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-util0-dev libxcb-ewmh-dev libxcb-keysyms1-dev libxcb-shape0-dev xclip gnome-terminal -y
+echo $PassWD|sudo -S apt install build-essential git vim xcb -y
+echo $PassWD|sudo -S apt-get install libxcb-xinerama0-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-util0-dev libxcb-ewmh-dev libxcb-keysyms1-dev libxcb-shape0-dev libxcb-xtest0-dev libasound2-dev xclip gnome-terminal -y
 cd ~
 if [ -d ~/sxhkd ]; then
     rm -Rf ~/sxhkd
@@ -138,10 +154,6 @@ if [ -d ~/.config/sxhkd ]; then
 else
      mkdir -p ~/.config/sxhkd
 fi
-echo "Clonando Repositorio Bspwm"
-git clone https://github.com/baskerville/bspwm.git
-echo "Clonando Repositorio sxhkd"
-git clone https://github.com/baskerville/sxhkd.git
 echo "Instalando Bspwm"
 echo $PassWD|sudo -S apt-get install bspwm -y
 cd bspwm && make && echo $PassWD|sudo -S make install
@@ -172,22 +184,49 @@ cd $PathSt
 echo -n "Presiona enter para continuar: "
 read ent
 clear
-figlet -c Compton
+figlet -c Picom
 echo "Personaliza las ventanas con transparencias y difuminado de las ventanas entre otras"
 echo "Instalando Compton"
-echo $PassWD|sudo -S apt-get install compton -y
-if [ -d ~/.config/compton ]; then
-     cp Bspwm/compton.conf ~/.config/compton
-else
-     mkdir ~/.config/compton
-     cp Bspwm/compton.conf ~/.config/compton
-fi
+echo $PassWD|sudo -S  apt-get install compton -y
+echo $PassWD|sudo -S  apt update
+echo $PassWD|sudo -S  apt install meson libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev libxcb-glx0-dev
+cd ${PathSt}/Descargas
+git clone https://github.com/ibhagwan/picom.git
+cd picom/
+git submodule update --init --recursive
+meson --buildtype=release . build
+ninja -C build
+sudo ninja -C build install
+mkdir ~/.config/picom
+cp ${PathSt}/Descargas/blue-sky/picom.conf ~/.config
+echo 'picom --experimental-backends &' >> ~/.config/bspwm/bspwmrc 
+echo 'bspc config border_width 0' >> ~/.config/bspwm/bspwmrc
 cd $PathSt
 clear
 figlet -c Rofi 
 echo "Permite personalizar el menu flotante"
 echo "Instalando Rofi"
-echo $PassWD|sudo -S apt-get install rofi -y
+echo $PassWD|sudo -S apt-get install rofi papirus-icon-theme -y
+cd ${PathSt}/Descargas
+git clone https://github.com/Murzchnvok/rofi-collection
+git clone https://github.com/VaughnValle/blue-sky.git
+if [ -d ~/.config/rofi/themes ]; then
+           #rm -Rf  ~/.config/rofi/themes
+           cp ${PathSt}/Descargas/blue-sky/nord.rasi ~/.config/rofi/themes
+           cp ${PathSt}/Descargas/rofi-collection/dracula/dracula.rasi ~/.config/rofi/themes
+           cp ${PathSt}/Descargas/rofi-collection/gruvbox/gruvbox.rasi ~/.config/rofi/themes
+           cp ${PathSt}/Descargas/rofi-collection/material/material.rasi ~/.config/rofi/themes
+           cp ${PathSt}/Descargas/rofi-collection/minimal/minimal.rasi ~/.config/rofi/themes
+           cp ${PathSt}/Descargas/rofi-collection/murz/murz.rasi ~/.config/rofi/themes
+else
+           mkdir -p ~/.config/rofi/themes
+           cp ${PathSt}/Descargas/blue-sky/nord.rasi ~/.config/rofi/themes
+           cp ${PathSt}/Descargas/rofi-collection/dracula/dracula.rasi ~/.config/rofi/themes
+           cp ${PathSt}/Descargas/rofi-collection/gruvbox/gruvbox.rasi ~/.config/rofi/themes
+           cp ${PathSt}/Descargas/rofi-collection/material/material.rasi ~/.config/rofi/themes
+           cp ${PathSt}/Descargas/rofi-collection/minimal/minimal.rasi ~/.config/rofi/themes
+           cp ${PathSt}/Descargas/rofi-collection/murz/murz.rasi ~/.config/rofi/themes
+fi
 echo -n "seleccionar tema rofi [Y/N]: "
 read ops
 if [ $ops = 'Y' ]; then
@@ -257,6 +296,7 @@ cp ${PathSt}/Bspwm/battery.sh ~/.config/bin/
 chmod +x -R ~/.config/bin
 echo -n "Presiona enter para continuar: "
 read ent
+cd $PathSt
 clear
 figlet -c Polybar
 echo "Personaliza la barra de tarea"
@@ -264,51 +304,46 @@ echo "Instalando Dependencias"
 echo $PassWD|sudo -S apt install build-essential git cmake cmake-data pkg-config python3-sphinx python3-packaging libcairo2-dev libxcb1-dev libxcb-util0-dev libxcb-randr0-dev libxcb-composite0-dev python3-xcbgen xcb-proto libxcb-image0-dev libxcb-ewmh-dev libxcb-icccm4-dev -y
 echo $PassWD|sudo -S apt install libxcb-xkb-dev libxcb-xrm-dev libxcb-cursor-dev libasound2-dev libpulse-dev i3-wm libjsoncpp-dev libmpdclient-dev libcurl4-openssl-dev libnl-genl-3-dev -y
 echo "Instalando Polybar"
-echo $PassWD|sudo -S sudo apt install polybar -y
-echo "Instalando polybar-themes"
 echo "clonando repositorio"
-echo $PassWD|sudo -S cp ${PathSt}/Bspwm/bspwm.desktop /usr/share/xsessions/ 
-cd ~
-git clone --depth=1 https://github.com/adi1090x/polybar-themes.git
-cd polybar-themes
-chmod +x setup.sh
-#./setup.sh
-
 if [ -d ~/.config/polybar ]; then
      rm -Rf ~/.config/polybar
 fi
-pwd
-cp ${PathSt}/Bspwm/Comprimido.tar ~/.config/
-file ~/.config/Comprimido.tar
-sleep 5
-cd ~/.config
-pwd
-if [ -f ~/.config/Comprimido.tar ]; then
-     whoami
-     tar -xvf ~/.config/Comprimido.tar
-     file ~/.config/polybar/config.ini
-     ls -l polybar
-     sleep 5
-fi
+git clone --recursive https://github.com/polybar/polybar
+cd polybar/
+mkdir build
+cd build/
+cmake ..
+make -j$(nproc)
+sudo make install
 sleep 3
 if [ -d ~/.config/bin ]; then
      echo "Directorio existe"
 else
      mkdir ~/.config/bin
 fi
+if [ -d ~/.config/polybar ]; then
+     echo "Directorio existe"
+     echo "Eliminando Directorio"
+     rm -Rf ~/.config/polybar
+fi
+cd ${PathSt}/Descargas
+git clone https://github.com/VaughnValle/blue-sky.git
+cp -R blue-sky/polybar ~/.config/
+cd blue-sky/fonts
+sudo cp * /usr/share/fonts/truetype/
+fc-cache -v
 cd $PathSt
-cp Bspwm/launch.sh ~/.config/polybar
-rm -f ~/.config/polybar/config.ini
-cp Bspwm/config.ini ~/.config/polybar
-if [ -f ~/.config/polybar/config.ini ]; then
-     echo "file config.ini: existe"
-else
-     cp ${PathSt}/Bspwm/config.ini ~/.config/polybar
-     file ~/.config/polybar/config.ini
-fi     
 clear
+figlet -c Actualizar Firefox
+echo "instalando Firejail"
+sudo apt install firejail -y
+sudo chown -R ${User}:${User} /opt
+cd /opt
+#wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/89.0.2/linux-x86_64/es-CL/firefox-89.0.2.tar.bz2
+wget https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=es-CL
+tar -xf firefox*.tar.bz2
 figlet -c Chrome
-echo -n "Desean Instalar google chrome Y/N: "
+echo -n "Desea Instalar google chrome Y/N: "
 read opsg
 if [ $opsg = 'Y' ]; then
      wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -394,20 +429,42 @@ clear
 figlet -c Dunst
 echo "Mejora la estetica de las notificaciones"
 echo "Instalando Dunst"
-echo $PassWD|sudo -S apt-get install Dunst
+echo $PassWD|sudo -S apt-get install Dunst -y
 cd $PathSt
 clear
-figlet -c Glichlock
+figlet -c Ranger
+echo "Es una utilidad que permite administrar los archivos con un visor de vista previa en los directorios"
+echo "Instalando Dunst"
+echo $PassWD|sudo -S apt-get install ranger -y 
+cd $PathSt
+figlet -c SlimLock
 echo "Permite personalizar la pantalla de bloqueo"
-echo "Instalando i3lock-color scrot imagemagick"
-echo $PassWD|sudo -S apt-get update -y
-echo $PassWD|sudo -S apt-get install i3lock-color scrot imagemagick -y
-cd /opt
-echo $PassWD|sudo -S git clone https://github.com/xero/glitchlock
-echo "#Bloque de pantalla" >> /home/${User}/.config/sxhkd/sxhkdrc
+echo "Instalando dependencias"
+echo $PassWD|sudo -S apt update
+echo $PassWD|sudo -S apt install slim libpam0g-dev libxrandr-dev libfreetype6-dev libimlib2-dev libxft-dev
 echo "super + ctrl + alt + x" >> /home/${User}/.config/sxhkd/sxhkdrc
-echo "    GLITCHICON=/opt/glitchlock/stop.png /opt/glitchlock/glitchlock" >> /home/${User}/.config/sxhkd/sxhkdrc
+echo "    slimlock" >> /home/${User}/.config/sxhkd/sxhkdrc
 clear
+figlet -c Oh My TMUX
+cd ~
+git clone https://github.com/gpakosz/.tmux.git
+ln -s -f .tmux/.tmux.conf
+cp .tmux/.tmux.conf.local  .
+cd $PathSt
+clear
+figlet -c nvim
+echo "Editor de texto"
+cd ~/.config/nvim/
+wget https://github.com/arcticicestudio/nord-vim/archive/master.zip
+unzip master.zip 
+rm master.zip 
+mv nord-vim-master/colors/ .
+rm -r nord-vim-master/
+wget https://raw.githubusercontent.com/Necros1s/lotus/master/lotus.vim
+wget https://raw.githubusercontent.com/Necros1s/lotus/master/lotusbar.vim
+wget https://raw.githubusercontent.com/Necros1s/lotus/master/init.vim
+echo "colorscheme nord" >> init.vim
+echo "syntax on" >> init.vim
 figlet -c Sublime
 echo $PassWD|sudo -S wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
 echo $PassWD|sudo -S apt-get install apt-transport-https
@@ -415,13 +472,20 @@ echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sou
 sudo apt-get update
 sudo apt-get install sublime-text
 echo $PassWD|sudo -S ln -s /opt/sublime_text/sublime_text /usr/bin/sublime_text
+figlet -c "Latex"
+echo "Utilidad para crear docuemntos PDF"
+echo "Instalando textlive"
+echo $PassWD|sudo -S apt-get install texlive-full -y
+echo $PassWD|sudo -S apt-get install zathura latexmk rubber -y
+cd $PathSt
+clear
 figlet -c Instalacion ROOT
 echo $PassWD|sudo -S su - root -c "${PathSt}/EnvHckRoot.sh $User $PathSt"
 clear
 echo "Presione enter para continuar: "
 read ent
-figlet -c Estamos Hack!
 clear
+figlet -c Estamos Hack!
 echo "Solo falta cerrar sesion para cargar la configuracion"
 echo "Deseas cerrar sesion [Y/N]: "
 read opts2
