@@ -1,11 +1,11 @@
 # Entorno
 
 El script tiene como finalidad automatizar el proceso de instalación y modificación del entorno de trabajo en linux. Funciona para kali linux y Parrot OS.
-La fuente de información para crear este script en principio pertenece al video de s4vitar "Creando un entorno de trabajo desde cero" y del github "Parrot OS minimalista para uso con HTB":
+La fuente de información utilizada es obtenida por la configuración de entorno reciente de s4vitar realizada por twitch. Se gregan algunas caracteristicas adicionales y
+se agregan mas temas tanto de la polybar como de rofi. Instala los temas por defecto para personalizar se debe realizar la configuración de forma manual.
 
       Links:
-             *.- https://www.youtube.com/watch?v=66IAhBI0bCM&t=0s
-             *.- https://gist.github.com/aljavier/9c06356f4647b56ab3238d66219be6fa
+             *.- https://pastebin.com/EEX1Dsuq
              
 Ejecución Script de instalación
 
