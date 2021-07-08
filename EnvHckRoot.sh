@@ -31,10 +31,16 @@ echo "Presiona enter para continuar: "
 read key
 echo "Instalando FZF"
 /root/.fzf/install
+clear
+figlet -c NVIM
+if [ -d /root/.config/nvim ]; then
+  rm -Rf /root/.config/nvim
+fi
+ln -s /home/${User}/.config/nvim /root/.config/nvim
 figlet -c JAVA
 echo "Instalando Java 8 para burpsuit"
 apt-get install openjdk-8-jdk openjdk-8-jdk-headless -y
-echo "Configurando la opcion principal para java (seleccionar la version 8)"
+echo "Configurando la opcion principal para java (seleccionar la version 11)"
 update-alternatives --config java
 sleep 20
 java -version

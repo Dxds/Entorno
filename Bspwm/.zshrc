@@ -90,17 +90,23 @@ function extractPorts(){
 function htb_add(){
     echo -n "Ingrese path file openvpn: "
     read ovpn
+    if [ -f $ovpn ]; then
+      echo "File existe"
+    else
+      echo "Valide que el archivo de configuración openvpn exista"
+      echo "File indicado: $ovpn"
+      exit 0
+    fi
     echo -n "Ingrese nombre para identificar la conexion: "
     read name
-    echo -n "Ingrese una descripcion breve de la conexion"
+    echo -n "Ingrese una descripcion breve de la conexion: "
     read descpr
     if [ -d ~/.opvpnclnt ]; then
       cp $ovpn ~/.opvpnclnt/${name}.ovpn
-      if [ -f ~/.opvpnclnt/lists]; then
+      if [ -f ~/.opvpnclnt/lists ]; then
         echo "$name - $descpr" >> ~/.opvpnclnt/lists
       else
         touch ~/.opvpnclnt/lists
-        echo "Name   Description" > ~/.opvpnclnt/lists
         echo "$name - $descpr" >> ~/.opvpnclnt/lists
       fi
     else

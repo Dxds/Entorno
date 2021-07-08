@@ -64,7 +64,7 @@ Eth=$(ip add|grep "2:"|awk '{print $2}'|head -1|sed 's/://g')
 User=$(whoami|awk '{print $1}')
 echo "Usuario: $User"
 echo "red: $Eth"
-echo "Espacio de trabajo: $PathST"
+echo "Espacio de trabajo: $PathSt"
 echo -n "Ingresar Alias(Nombre para dejar en la barra): "
 read Alias
 if [ $optsos == 2 ]; then
@@ -187,7 +187,6 @@ clear
 figlet -c Picom
 echo "Personaliza las ventanas con transparencias y difuminado de las ventanas entre otras"
 echo "Instalando Compton"
-echo $PassWD|sudo -S  apt-get install compton -y
 echo $PassWD|sudo -S  apt update
 echo $PassWD|sudo -S  apt install meson libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev libxcb-glx0-dev
 cd ${PathSt}/Descargas
@@ -198,7 +197,7 @@ meson --buildtype=release . build
 ninja -C build
 sudo ninja -C build install
 mkdir ~/.config/picom
-cp ${PathSt}/Descargas/blue-sky/picom.conf ~/.config
+cp ${PathSt}/Bspwm/picom.conf ~/.config
 echo 'picom --experimental-backends &' >> ~/.config/bspwm/bspwmrc 
 echo 'bspc config border_width 0' >> ~/.config/bspwm/bspwmrc
 cd $PathSt
@@ -253,8 +252,12 @@ cntFnt=$(ls -l /usr/local/share/fonts/*Hack* |wc -l)
 if [ $cntFnt -eq 0 ]; then
     cd /usr/local/share/fonts
     echo $PassWD|sudo -S wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Hack.zip
+    echo $PassWD|sudo -S wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/JetBrainsMono.zip
+    echo $PassWD|sudo -S wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Iosevka.zip
     echo $PassWD|sudo -S unzip Hack.zip
-    echo $PassWD|sudo -S rm -f Hack.zip
+    echo $PassWD|sudo -S unzip JetBrainsMono.zip
+    echo $PassWD|sudo -S unzip Iosevka.zip
+    echo $PassWD|sudo -S rm -f Hack.zip JetBrainsMono.zip Iosevka.zip
     echo "Fuente Hack Nerd Instalada"
     echo "Revisar en el link como habilitar en la terminal"
     echo "Link:  https://www.youtube.com/watch?v=66IAhBI0bCM&t=3208s"
@@ -284,14 +287,18 @@ else
 fi
 if [ $Eth = "eth0" ]; then
      cp ${PathSt}/Bspwm/ethernet_status.sh ~/.config/bin/
+     cp ${PathSt}/Bspwm/copy_ethernet_status.sh ~/.config/bin/
 else
      echo -n "Favor indicar nombre de la tarjeta de red"
      read eth1
      cp ${PathSt}/Bspwm/ethernet_status.sh ~/.config/bin/
+     cp ${PathSt}/Bspwm/copy_ethernet_status.sh ~/.config/bin/
      sed -i "s/eth0/${eth1}/g" ~/.config/bin/ethernet_status.sh
+     sed -i "s/eth0/${eth1}/g" ~/.config/bin/copy_ethernet_status.sh
 fi
 cd $PathSt
 cp ${PathSt}/Bspwm/hackthebox.sh ~/.config/bin/
+cp ${PathSt}/Bspwm/copy_hackthebox.sh ~/.config/bin/
 cp ${PathSt}/Bspwm/battery.sh ~/.config/bin/
 chmod +x -R ~/.config/bin
 echo -n "Presiona enter para continuar: "
@@ -305,9 +312,6 @@ echo $PassWD|sudo -S apt install build-essential git cmake cmake-data pkg-config
 echo $PassWD|sudo -S apt install libxcb-xkb-dev libxcb-xrm-dev libxcb-cursor-dev libasound2-dev libpulse-dev i3-wm libjsoncpp-dev libmpdclient-dev libcurl4-openssl-dev libnl-genl-3-dev -y
 echo "Instalando Polybar"
 echo "clonando repositorio"
-if [ -d ~/.config/polybar ]; then
-     rm -Rf ~/.config/polybar
-fi
 git clone --recursive https://github.com/polybar/polybar
 cd polybar/
 mkdir build
@@ -316,34 +320,29 @@ cmake ..
 make -j$(nproc)
 sudo make install
 sleep 3
-if [ -d ~/.config/bin ]; then
-     echo "Directorio existe"
-else
-     mkdir ~/.config/bin
-fi
-if [ -d ~/.config/polybar ]; then
-     echo "Directorio existe"
-     echo "Eliminando Directorio"
-     rm -Rf ~/.config/polybar
-fi
+cd ~
+echo $PassWD|sudo -S apt-get install npm -y
+git clone https://github.com/Murzchnvok/polybar-collection
 cd ${PathSt}/Descargas
-git clone https://github.com/VaughnValle/blue-sky.git
-cp -R blue-sky/polybar ~/.config/
-cd blue-sky/fonts
+git clone http://github.com/google/material-design-icons
+cd material-design-icons
+echo $PassWD|sudo -S npm install material-design-icons
+cd blue-sky/polybar/fonts
 sudo cp * /usr/share/fonts/truetype/
 fc-cache -v
-cd $PathSt
+cp -R ${PathSt}/Bspwm/polybar ~/.config/bin/
+cd ${PathSt}/Descargas
 clear
 figlet -c Actualizar Firefox
 echo "instalando Firejail"
 sudo apt install firejail -y
 sudo chown -R ${User}:${User} /opt
 cd /opt
-#wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/89.0.2/linux-x86_64/es-CL/firefox-89.0.2.tar.bz2
-wget https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=es-CL
-tar -xf firefox*.tar.bz2
+wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/89.0.2/linux-x86_64/es-CL/firefox-89.0.2.tar.bz2
+tar -xf firefox-89.0.2.tar.bz2
+clear
 figlet -c Chrome
-echo -n "Desea Instalar google chrome Y/N: "
+echo "Desea Instalar google chrome Y/N: "
 read opsg
 if [ $opsg = 'Y' ]; then
      wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -368,9 +367,9 @@ fi
 figlet -c ZSH
 echo "Modificacion zsh"
 rm -f  ~/.zshrc
-cp  Bspwm/.zshrc ~/
+cp  ${PathSt}/Bspwm/.zshrc ~/
 echo "Configurando fuente zsh-theme archivo zhrc"
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >> ~/.zshrc
 sed -i "s/user_name/${User}/g" ~/.zshrc
 echo $PassWD|sudo -S cp ${PathSt}/Bspwm/bspwm.desktop /usr/share/xsessions/
 echo "Instalacion Plugin"
@@ -397,6 +396,7 @@ else
 fi
 echo -n "Presiona enter para continuar: "
 read ent
+cd ${PathSt}/Descargas
 clear
 figlet -c LSD
 echo "Mejora las capacidades del comando ls"
@@ -421,7 +421,7 @@ echo "Es una utilidad que mejora la experiencia con las busquedas de archivos"
 echo "Instalacion usuario $User"
 echo "Clonando repositorio FZF"
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-echo "Instaland FZF"
+echo "Instalando FZF"
 ~/.fzf/install
 sleep 2
 cd $PathSt
@@ -439,6 +439,17 @@ echo $PassWD|sudo -S apt-get install ranger -y
 cd $PathSt
 figlet -c SlimLock
 echo "Permite personalizar la pantalla de bloqueo"
+echo "Desea Agrgear un fondo de pantalla para slimLock"
+read WlpSlim
+if [[ $WlpSlim = '[y/Y]' ]]; then
+  echo "Ingrese ruta absoluta donde se encuentra la imagen: "
+  read PathImg
+  if [ -z $PathImg ]; then
+    echo "No ingreso ruta, la instalación sera por defecto"
+  else
+    cp $PathImg /usr/share/slim/themes/default/background.png
+  fi
+fi
 echo "Instalando dependencias"
 echo $PassWD|sudo -S apt update
 echo $PassWD|sudo -S apt install slim libpam0g-dev libxrandr-dev libfreetype6-dev libimlib2-dev libxft-dev
@@ -459,7 +470,7 @@ wget https://github.com/arcticicestudio/nord-vim/archive/master.zip
 unzip master.zip 
 rm master.zip 
 mv nord-vim-master/colors/ .
-rm -r nord-vim-master/
+#rm -r nord-vim-master/
 wget https://raw.githubusercontent.com/Necros1s/lotus/master/lotus.vim
 wget https://raw.githubusercontent.com/Necros1s/lotus/master/lotusbar.vim
 wget https://raw.githubusercontent.com/Necros1s/lotus/master/init.vim
@@ -477,6 +488,8 @@ echo "Utilidad para crear docuemntos PDF"
 echo "Instalando textlive"
 echo $PassWD|sudo -S apt-get install texlive-full -y
 echo $PassWD|sudo -S apt-get install zathura latexmk rubber -y
+mkdir ~/.config/latexmk
+echo "$\pdf_previewer = 'zathura';" > ~/.config/latexmk/latexmkrc
 cd $PathSt
 clear
 figlet -c Instalacion ROOT
@@ -486,6 +499,7 @@ echo "Presione enter para continuar: "
 read ent
 clear
 figlet -c Estamos Hack!
+rm -Rf ${PathSt}/Descargas
 echo "Solo falta cerrar sesion para cargar la configuracion"
 echo "Deseas cerrar sesion [Y/N]: "
 read opts2
