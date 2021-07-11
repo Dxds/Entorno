@@ -29,7 +29,7 @@ echo -e "\n\n"
 echo -e "\t\t\t 1.- Kali"
 echo -e "\t\t\t 2.- Parrot"
 echo -e "\t\t\t 3.- Other"
-echo -ne "\t\t\t Si usas una distribucion diferente a las indicadas debera revisar el script de intalacion \n para adaptarlo al S.O: "
+echo -e "\t\t\t Si usas una distribucion diferente a las indicadas debera revisar el script de intalacion \n para adaptarlo al S.O: "
 read optsos
 
 if [ $optsos = 3 ]; then
@@ -65,15 +65,15 @@ User=$(whoami|awk '{print $1}')
 echo "Usuario: $User"
 echo "red: $Eth"
 echo "Espacio de trabajo: $PathSt"
-echo -n "Ingresar Alias(Nombre para dejar en la barra): "
+echo "Ingresar Alias(Nombre para dejar en la barra): "
 read Alias
 if [ $optsos == 2 ]; then
     echo $PassWD |sudo -S id
-    echo -n "Ingresar path imagen de fondo: "
+    echo "Ingresar path imagen de fondo: "
     read Wallp
-    echo -n "Ingresar path imagen de fondo para pantalla de bloqueo: "
+    echo "Ingresar path imagen de fondo para pantalla de bloqueo: "
     read WlpBl
-    echo -n "Ingresar Path imagen icono para la pantalla de bloqueo (Debe ser en formato png y de tamaño 50x50): "
+    echo "Ingresar Path imagen icono para la pantalla de bloqueo (Debe ser en formato png y de tamaño 50x50): "
     read WlpIco
 fi
 clear
@@ -184,7 +184,7 @@ else
 fi
 cp ${PathSt}/Bspwm/.xinitrc ~
 cd $PathSt
-echo -n "Presiona enter para continuar: "
+echo "Presiona enter para continuar: "
 read ent
 clear
 figlet -c Picom
@@ -229,7 +229,7 @@ else
            cp ${PathSt}/Descargas/rofi-collection/minimal/minimal.rasi ~/.config/rofi/themes
            cp ${PathSt}/Descargas/rofi-collection/murz/murz.rasi ~/.config/rofi/themes
 fi
-echo -n "seleccionar tema rofi [Y/N]: "
+echo  "seleccionar tema rofi [Y/N]: "
 read ops
 if [ $ops = 'Y' ]; then
      rofi-theme-selector
@@ -265,7 +265,7 @@ if [ $cntFnt -eq 0 ]; then
     echo "Fuente Hack Nerd Instalada"
     echo "Revisar en el link como habilitar en la terminal"
     echo "Link:  https://www.youtube.com/watch?v=66IAhBI0bCM&t=3208s"
-    echo -n "Presiona enter para continuar: "
+    echo "Presiona enter para continuar: "
     read ent
 fi
 clear
@@ -293,7 +293,7 @@ if [ $Eth = "eth0" ]; then
      cp ${PathSt}/Bspwm/ethernet_status.sh ~/.config/bin/
      cp ${PathSt}/Bspwm/copy_ethernet_status.sh ~/.config/bin/
 else
-     echo -n "Favor indicar nombre de la tarjeta de red"
+     echo  "Favor indicar nombre de la tarjeta de red: "
      read eth1
      cp ${PathSt}/Bspwm/ethernet_status.sh ~/.config/bin/
      cp ${PathSt}/Bspwm/copy_ethernet_status.sh ~/.config/bin/
@@ -305,7 +305,7 @@ cp ${PathSt}/Bspwm/hackthebox.sh ~/.config/bin/
 cp ${PathSt}/Bspwm/copy_hackthebox.sh ~/.config/bin/
 cp ${PathSt}/Bspwm/battery.sh ~/.config/bin/
 chmod +x -R ~/.config/bin
-echo -n "Presiona enter para continuar: "
+echo  "Presiona enter para continuar: "
 read ent
 cd $PathSt
 clear
@@ -386,7 +386,7 @@ if [ -f ~/.p10k.zsh ]; then
 else
      cp ${PathSt}/Bspwm/.p10k.zsh ~/.p10k.zsh
 fi
-echo -n "Presiona enter para continuar: "
+echo "Presiona enter para continuar: "
 read ent
 cd ${PathSt}/Descargas
 clear
@@ -396,7 +396,7 @@ echo "Clonando Repositorio"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 echo "Configurando zsh"
 echo "Secuencia de s4vitar: y y y y 3 1 n 1 2 2 1 2 2 2 n 1 y"
-echo -n "¿Deseas configurar la terminal zsh? (Y/N): "
+echo "¿Deseas configurar la terminal zsh? (Y/N): "
 read lvl10k
 if [ $lvl10k = 'Y' ]; then
     echo "Para volver a la instalacion ejecuta exit en la terminal"
