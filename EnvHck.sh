@@ -14,7 +14,7 @@ echo "Me ayudo a ver alguno problemas con el script que se armo"
 echo "      *.- https://github.com/LevisWings/Auto-PWE "
 echo -e  "\n"
 echo -e  "\n"
-echo -n "   Ingresar Password Usuario: " 
+echo  "   Ingresar Password Usuario: " 
 stty -echo
 read PassWD
 stty echo
@@ -116,6 +116,7 @@ if [-d Descargas ]; then
        git clone https://github.com/baskerville/sxhkd.git
 else
        mkdir ${PathSt}/Descargas
+       cd ${PathSt}/Descargas
        echo "Clonando Repositorio Bspwm"
        git clone https://github.com/baskerville/bspwm.git
        echo "Clonando Repositorio sxhkd"
@@ -188,7 +189,7 @@ figlet -c Picom
 echo "Personaliza las ventanas con transparencias y difuminado de las ventanas entre otras"
 echo "Instalando Compton"
 echo $PassWD|sudo -S  apt update
-echo $PassWD|sudo -S  apt install meson libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev libxcb-glx0-dev
+echo $PassWD|sudo -S  apt install meson libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev libxcb-glx0-dev -y
 cd ${PathSt}/Descargas
 git clone https://github.com/ibhagwan/picom.git
 cd picom/
@@ -241,7 +242,7 @@ echo $PassWD|sudo -S apt-get install feh -y
 echo "Creando directorio para imagenes"
 mkdir ~/Fondos
 if [ -z Wallp ]; then
-     cp Images/Wallpaper.png ~/Fondos
+     cp ${PathSt}/Images/Wallpaper.png ~/Fondos
 else
      cp $Wallp ~/Fondos/Wallpaper.png
 fi
@@ -258,6 +259,7 @@ if [ $cntFnt -eq 0 ]; then
     echo $PassWD|sudo -S unzip JetBrainsMono.zip
     echo $PassWD|sudo -S unzip Iosevka.zip
     echo $PassWD|sudo -S rm -f Hack.zip JetBrainsMono.zip Iosevka.zip
+    echo $PassWD|sudo -S fc-cache -v
     echo "Fuente Hack Nerd Instalada"
     echo "Revisar en el link como habilitar en la terminal"
     echo "Link:  https://www.youtube.com/watch?v=66IAhBI0bCM&t=3208s"
@@ -329,7 +331,7 @@ cd material-design-icons
 echo $PassWD|sudo -S npm install material-design-icons
 cd blue-sky/polybar/fonts
 sudo cp * /usr/share/fonts/truetype/
-fc-cache -v
+echo $PassWD|sudo -S fc-cache -v
 cp -R ${PathSt}/Bspwm/polybar ~/.config/bin/
 cd ${PathSt}/Descargas
 clear
@@ -349,21 +351,7 @@ if [ $opsg = 'Y' ]; then
      echo $PassWD|sudo -S dpkg -i google-chrome-stable_current_amd64.deb
      rm -f google-chrome-stable_current_amd64.deb
 fi
-figlet -c Powerlevel10k
-echo "Permite personalizar la terminal ZSH"
-echo "Clonando Repositorio"
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo "Configurando zsh"
-echo "Secuencia de s4vitar: y y y y 3 1 n 1 2 2 1 2 2 2 n 1 y"
-echo -n "¿Deseas configurar la terminal zsh? (Y/N): "
-read lvl10k
-if [ $lvl10k = 'Y' ]; then
-    echo "Para volver a la instalacion ejecuta exit en la terminal"
-    sleep 5
-    zsh
-else
-    echo -e "Puedes configurar en otro momento ejecutando zsh. \n Puedes ver la configuraciòn directamente en el link https://www.youtube.com/watch?v=66IAhBI0bCM&t=3296s"
-fi
+
 figlet -c ZSH
 echo "Modificacion zsh"
 rm -f  ~/.zshrc
@@ -398,6 +386,21 @@ echo -n "Presiona enter para continuar: "
 read ent
 cd ${PathSt}/Descargas
 clear
+figlet -c Powerlevel10k
+echo "Permite personalizar la terminal ZSH"
+echo "Clonando Repositorio"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+echo "Configurando zsh"
+echo "Secuencia de s4vitar: y y y y 3 1 n 1 2 2 1 2 2 2 n 1 y"
+echo -n "¿Deseas configurar la terminal zsh? (Y/N): "
+read lvl10k
+if [ $lvl10k = 'Y' ]; then
+    echo "Para volver a la instalacion ejecuta exit en la terminal"
+    sleep 5
+    zsh
+else
+    echo -e "Puedes configurar en otro momento ejecutando zsh. \n Puedes ver la configuraciòn directamente en el link https://www.youtube.com/watch?v=66IAhBI0bCM&t=3296s"
+fi
 figlet -c LSD
 echo "Mejora las capacidades del comando ls"
 echo "descargando instalador"
@@ -452,7 +455,7 @@ if [[ $WlpSlim = '[y/Y]' ]]; then
 fi
 echo "Instalando dependencias"
 echo $PassWD|sudo -S apt update
-echo $PassWD|sudo -S apt install slim libpam0g-dev libxrandr-dev libfreetype6-dev libimlib2-dev libxft-dev
+echo $PassWD|sudo -S apt install slim libpam0g-dev libxrandr-dev libfreetype6-dev libimlib2-dev libxft-dev -y
 echo "super + ctrl + alt + x" >> /home/${User}/.config/sxhkd/sxhkdrc
 echo "    slimlock" >> /home/${User}/.config/sxhkd/sxhkdrc
 clear
@@ -492,6 +495,17 @@ mkdir ~/.config/latexmk
 echo "$\pdf_previewer = 'zathura';" > ~/.config/latexmk/latexmkrc
 cd $PathSt
 clear
+figlet -c "Instalacion DISCORD"
+cd ${PathSt}/Descargas
+echo "Deseas Instalar la aplicación de discord [Y/N]: "
+read dscrd
+if [ $dscrd = 'Y' ]; then
+      echo $PassWD|sudo -S apt install libappindicator1 libc++1 libdbusmenu-gtk4 libindicator7 libc++1-11 libc++abi1-11  -y
+      wget https://dl.discordapp.net/apps/linux/0.0.15/discord-0.0.15.deb
+      echo $PassWD|sudo -S dpkg -i discord-0.0.15.deb
+else
+      echo "Continuara la intalación"
+fi
 figlet -c Instalacion ROOT
 echo $PassWD|sudo -S su - root -c "${PathSt}/EnvHckRoot.sh $User $PathSt"
 clear
@@ -499,6 +513,8 @@ echo "Presione enter para continuar: "
 read ent
 clear
 figlet -c Estamos Hack!
+echo "Limpiando Workspace"
+echo "Favor espere. Puede tomar varios minutos ..."
 rm -Rf ${PathSt}/Descargas
 echo "Solo falta cerrar sesion para cargar la configuracion"
 echo "Deseas cerrar sesion [Y/N]: "
@@ -506,10 +522,11 @@ read opts2
 if [ $opts2 = 'Y' ]; then
     figlet -c Se tenso
     figlet -c Que te cagas
+    echo "Debes seleccionar el entorno grafico de Bspwm en la pantalla de inicio para ver la configuración" 
     sleep 3
     kill -9 -1
 else
-    echo "Debes cerrar sesión y cambiar el entorna a bspwm, en la pantalla de inicio de sesión"
+    echo "Debes cerrar sesión y cambiar el entorna a bspwm, en la pantalla de inicio"
     sleep 5
     figlet -c Se tenso
     if [ -z $Alias ]; then
