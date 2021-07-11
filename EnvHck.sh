@@ -316,6 +316,7 @@ echo $PassWD|sudo -S apt install build-essential git cmake cmake-data pkg-config
 echo $PassWD|sudo -S apt install libxcb-xkb-dev libxcb-xrm-dev libxcb-cursor-dev libasound2-dev libpulse-dev i3-wm libjsoncpp-dev libmpdclient-dev libcurl4-openssl-dev libnl-genl-3-dev -y
 echo "Instalando Polybar"
 echo "clonando repositorio"
+cd ${PathSt}/Descargas
 git clone --recursive https://github.com/polybar/polybar
 cd polybar/
 mkdir build
@@ -324,16 +325,17 @@ cmake ..
 make -j$(nproc)
 sudo make install
 sleep 3
-cd ~
+cd ~/.config
 echo $PassWD|sudo -S apt-get install npm -y
 git clone https://github.com/Murzchnvok/polybar-collection
 cd ${PathSt}/Descargas
 git clone http://github.com/google/material-design-icons
 cd material-design-icons
 echo $PassWD|sudo -S npm install material-design-icons
-cd blue-sky/polybar/fonts
+cd ${PathSt}/Descargas/blue-sky/polybar/fonts
 sudo cp * /usr/share/fonts/truetype/
 echo $PassWD|sudo -S fc-cache -v
+rm -Rf ~/.config/polybar
 cp -R ${PathSt}/Bspwm/polybar ~/.config/bin/
 cd ${PathSt}/Descargas
 clear
@@ -444,6 +446,18 @@ echo $PassWD|sudo -S apt-get install ranger -y
 cd $PathSt
 figlet -c SlimLock
 echo "Permite personalizar la pantalla de bloqueo"
+echo "Instalando dependencias"
+echo $PassWD|sudo -S apt update
+echo $PassWD|sudo -S apt install slim libpam0g-dev libxrandr-dev libfreetype6-dev libimlib2-dev libxft-dev -y
+cd ${PathSt}/Descargas
+git clone https://github.com/joelburget/slimlock.git
+cd ${PathSt}/Descargas/slimlock/
+echo $PassWD|sudo -S make
+echo $PassWD|sudo -S make install
+cd ${PathSt}/Descargas/blue-sky/slim
+echo $PassWD|sudo -S cp slim.conf /etc/
+echo $PassWD|sudo -S cp slimlock.conf /etc/
+echo $PassWD|sudo -S cp -r default /usr/share/slim/themes
 echo "Desea Agrgear un fondo de pantalla para slimLock"
 read WlpSlim
 if [[ $WlpSlim = '[y/Y]' ]]; then
@@ -455,9 +469,6 @@ if [[ $WlpSlim = '[y/Y]' ]]; then
     cp $PathImg /usr/share/slim/themes/default/background.png
   fi
 fi
-echo "Instalando dependencias"
-echo $PassWD|sudo -S apt update
-echo $PassWD|sudo -S apt install slim libpam0g-dev libxrandr-dev libfreetype6-dev libimlib2-dev libxft-dev -y
 echo "super + ctrl + alt + x" >> /home/${User}/.config/sxhkd/sxhkdrc
 echo "    slimlock" >> /home/${User}/.config/sxhkd/sxhkdrc
 clear
