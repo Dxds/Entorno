@@ -108,7 +108,7 @@ if [ $optsos == 2 ]; then
     clear
 fi
 cd ${PathSt}
-if [-d Descargas ]; then
+if [ -d Descargas ]; then
        cd ${PathSt}/Descargas
        echo "Clonando Repositorio Bspwm"
        git clone https://github.com/baskerville/bspwm.git
