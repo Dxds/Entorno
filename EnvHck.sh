@@ -145,6 +145,7 @@ if [ -d ~/.config/bspwm ]; then
      echo "Directorios bspwm: Existe"
      echo "Eliminado Directorio actual"
      rm -Rf ~/.config/bspwm
+     mkdir ~/.config/bspwm
 else
      mkdir -p ~/.config/bspwm
 fi
@@ -152,14 +153,15 @@ if [ -d ~/.config/sxhkd ]; then
      echo "Directorios bspwm sxhkd: Existe"
      echo "Eliminado Directorio actual"
      rm -Rf ~/.config/sxhkd
+     mkdir -p ~/.config/sxhkd
 else
      mkdir -p ~/.config/sxhkd
 fi
 echo "Instalando Bspwm"
 echo $PassWD|sudo -S apt-get install bspwm -y
-cd bspwm && make && echo $PassWD|sudo -S make install
+cd ${PathSt}/Descargas/bspwm && make && echo $PassWD|sudo -S make install
 echo "Instalando Sxhkd"
-cd ../sxhkd && make && echo $PassWD|sudo -S make install
+cd ${PathSt}/Descargas/sxhkd && make && echo $PassWD|sudo -S make install
 cp ${PathSt}/Bspwm/bspwmrc ~/.config/bspwm/
 cp ${PathSt}/Bspwm/sxhkdrc ~/.config/sxhkd/
 chmod u+x ~/.config/bspwm/bspwmrc
